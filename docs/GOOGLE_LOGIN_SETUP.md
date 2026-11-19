@@ -4,8 +4,8 @@ Flow: the app asks Google for an ID token, then Supabase checks it and starts th
 
 ## 1. Google Cloud (console.cloud.google.com)
 
-1. Create a project named "Aayush Computer".
-2. Google Auth Platform (OAuth consent screen): app name "Aayush Computer", support email, audience "External". Scopes needed: email, profile, openid. Click **Publish app** so any Gmail user can sign in (otherwise only listed test users can). These basic scopes normally need no Google review.
+1. Create a project named "Aayush Computers".
+2. Google Auth Platform (OAuth consent screen): app name "Aayush Computers", support email, audience "External". Scopes needed: email, profile, openid. Click **Publish app** so any Gmail user can sign in (otherwise only listed test users can). These basic scopes normally need no Google review.
 3. Credentials > Create credentials > OAuth client ID:
    - **Web application** (name: Aayush Web)
      - Authorized redirect URI: `https://YOUR-PROJECT-REF.supabase.co/auth/v1/callback`

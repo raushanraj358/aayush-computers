@@ -26,8 +26,8 @@ In Supabase > Authentication:
 3. **Providers > Google**: see `../docs/GOOGLE_LOGIN_SETUP.md`.
 4. **Password**: set the minimum password length to 8 (the app also checks this).
 5. **Email templates**: the app asks the user to type a code, so add the code to two templates:
-   - "Confirm signup": `Your Aayush Computer code is {{ .Token }}`
-   - "Reset password": `Your Aayush Computer password reset code is {{ .Token }}`
+   - "Confirm signup": `Your Aayush Computers code is {{ .Token }}`
+   - "Reset password": `Your Aayush Computers password reset code is {{ .Token }}`
 6. **SMTP settings**: add your own email sender (for example Brevo, Resend or Gmail SMTP). Supabase's built-in sender only delivers a few emails an hour, and only to your team's addresses, so customers would not get their codes.
 
 ## What the database does by itself

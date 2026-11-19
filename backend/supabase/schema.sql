@@ -1,4 +1,4 @@
--- Aayush Computer: database schema for Supabase (Postgres)
+-- Aayush Computers: database schema for Supabase (Postgres)
 -- Run this whole file once in Supabase > SQL Editor.
 
 -- ---------- Profiles (one per signed-in user) ----------

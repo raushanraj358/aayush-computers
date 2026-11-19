@@ -122,7 +122,7 @@ export default function LoginScreen() {
     <KeyboardAvoidingView style={s.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1 }}>
         <View style={s.header}>
-          <Text style={s.brand}>AAYUSH COMPUTER</Text>
+          <Text style={s.brand}>AAYUSH COMPUTERS</Text>
           <Text style={s.tag}>Your Trusted Technology Partner</Text>
           <Text style={s.title}>{t.title}</Text>
           <Text style={s.sub}>{t.sub}</Text>

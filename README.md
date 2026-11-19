@@ -1,6 +1,6 @@
-# Aayush Computer
+# Aayush Computers
 
-Web and mobile app for Aayush Computer: sales enquiries, repair requests, orders and status tracking.
+Web and mobile app for Aayush Computers: sales enquiries, repair requests, orders and status tracking.
 
 Owner: Nitish Kamlapuri, 90064 34998
 
@@ -29,4 +29,4 @@ GitHub Pages hosts only the web prototype. The Android app is published through 
 
 1. Replace demo data with a real backend (see `backend/README.md`).
 2. Build the mobile app (see `mobile/README.md`).
-3. Create all accounts (GitHub, hosting, database, SMS, Google Play, Apple) under Aayush Computer's own email so the owner holds full control.
+3. Create all accounts (GitHub, hosting, database, SMS, Google Play, Apple) under Aayush Computers' own email so the owner holds full control.
