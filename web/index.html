@@ -136,7 +136,7 @@ return '<div class="hd" style="padding-bottom:26px"><div class="brand"><div clas
 +(m=="verify"?'<button type="button" class="lnk c" data-a="resend">Resend code</button>':'')
 +(!e?'<button type="button" class="lnk c" data-a="mode" data-v="signin">Back to sign in</button>':'')
 +(e?'<p class="or">or</p><button type="button" class="b o" style="width:100%;margin-top:10px" data-a="google"><b style="color:#4285f4">G</b> '+(m=="signup"?"Sign up with Google":"Continue with Google")+'</button><p class="note">Use your Gmail account. New users get an account automatically.</p>':'')
-+'<div class="hint">Demo only, nothing is sent. Customer: 98100 22222 / demo1234. Owner: 90064 34998 / owner1234. Any code is 1234, and Google sign-in is simulated.</div></div>'}
++'</div>'}
 const val=(id,raw)=>{const el=document.getElementById(id);return el?(raw?el.value:el.value.trim()):""};
 function enter(a){S.user={role:a.role,phone:fmtPh(a.phone),email:a.email||"",id:a.key,name:a.name};S.pending=null;S.lf={};S.info="";S.mode="signin";S.view=a.role=="owner"?"orq":"home";render()}
 function goMode(m,info){S.lf={id:val("lid")||S.lf.id||"",name:val("lnm")};S.mode=m;S.info=info||"";render()}
