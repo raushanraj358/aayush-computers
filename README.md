@@ -15,7 +15,7 @@ Owner: Nitish Kamlapuri, 90064 34998
 
 ## Try the prototype
 
-Open `web/index.html` in a browser. Demo login: any mobile number with code `1234`, or "Continue with Google" (simulated). Choose Customer or Owner on the sign-in screen.
+Open `web/index.html` in a browser. Demo login (mobile number or email + password): customer `98100 22222` / `demo1234`, owner `90064 34998` / `owner1234`. You can also create an account (demo code `1234`), reset a password, or use "Continue with Google" (simulated).
 
 ## Host the prototype for free (GitHub Pages)
 

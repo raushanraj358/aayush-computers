@@ -10,5 +10,11 @@ Create the app here later with:
 
     npx create-expo-app@latest .
 
-## Google login
-Code is in `src/lib/googleAuth.ts`, `src/lib/supabase.ts`, `src/hooks/useSession.ts` and `src/screens/LoginScreen.tsx`. Setup steps are in `../docs/GOOGLE_LOGIN_SETUP.md`.
+## Login
+`src/screens/LoginScreen.tsx` offers sign in with mobile number or email + password, create account, forgot password, and "Continue with Google".
+
+- `src/lib/auth.ts`: mobile/email + password sign-in, sign-up with a confirmation code, password reset
+- `src/lib/googleAuth.ts`: Google sign-in (also signs up new users)
+- `src/lib/supabase.ts`, `src/hooks/useSession.ts`: session and role
+
+Supabase setup: `../backend/README.md` (Login setup). Google setup: `../docs/GOOGLE_LOGIN_SETUP.md`.

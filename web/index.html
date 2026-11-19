@@ -68,12 +68,14 @@ textarea{min-height:90px;resize:vertical}
 .nav button{background:none;border:0;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:.72rem;cursor:pointer;padding:2px 14px}
 .nav button.on{color:var(--blue)}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;z-index:6;max-width:90%;text-align:center}
+.lnk{background:none;border:0;color:var(--blue);font:inherit;font-weight:600;cursor:pointer;padding:8px 0}.lnk.r{display:block;margin-left:auto}.lnk.c{display:block;margin:6px auto 0}.note{text-align:center;color:var(--mute);font-size:.85rem;margin:8px 0 0}.ok{color:var(--green);font-weight:600;margin:12px 0 0}
 .hint{background:var(--tile);border-radius:10px;padding:10px 12px;margin-top:14px;font-size:.88rem;color:var(--mute)}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="toast" class="toast" role="status" hidden></div>
 <script>
 const SHOP_PHONE="+919006434998",OWNER="Nitish Kamlapuri";
 const LOGO='<svg width="48" height="48" viewBox="0 0 48 48" role="img" aria-label="Aayush Computer logo"><rect width="48" height="48" rx="12" fill="#fff"/><path d="M11 37L24 10l13 27" fill="none" stroke="#143560" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="16.5" y="27" width="15" height="5" rx="2.5" fill="#16a34a"/><circle cx="24" cy="10" r="3.6" fill="#2563eb"/></svg>';
@@ -104,16 +106,52 @@ const LABEL={service:"Repair request",order:"Order",enquiry:"Enquiry"};
 const now=()=>new Date().toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const rs=n=>"₹"+n.toLocaleString("en-IN");
-let S={user:null,role:"customer",view:"home",cat:"All",q:"",ft:"service",toast:"",notes:[],
+let S={user:null,mode:"signin",lf:{},pending:null,info:"",view:"home",cat:"All",q:"",ft:"service",notes:[],
 products:[{id:1,name:"Dell Latitude 5490, Core i5, 8 GB, 256 GB SSD",price:18999,cat:"Laptops",brand:"Dell",used:true,on:true},{id:2,name:"HP EliteBook 840 G3, Core i5, 8 GB, 256 GB SSD",price:17499,cat:"Laptops",brand:"HP",used:true,on:true},{id:3,name:"Acer Aspire E15, Core i3, 4 GB, 500 GB HDD",price:15000,cat:"Laptops",brand:"Acer",used:true,on:true},{id:4,name:"Lenovo ThinkPad T470, Core i5, 8 GB, 256 GB SSD",price:19999,cat:"Laptops",brand:"Lenovo",used:true,on:true},{id:5,name:"2MP HD bullet CCTV camera, night vision",price:1199,cat:"CCTV",on:true},{id:6,name:"2MP dome CCTV camera, night vision, audio",price:1599,cat:"CCTV",dome:true,on:true},{id:7,name:"Inkjet all-in-one printer (print, scan, copy)",price:4999,cat:"Printers",on:true},{id:8,name:"Mono laser printer, fast print",price:8499,cat:"Printers",on:true}],
-reqs:[{id:101,type:"service",title:"Dell Inspiron won’t switch on",detail:"No power light since yesterday.",uid:"98100 22222",phone:"98100 22222",device:"Computer / Laptop",name:"Demo customer",s:2,hist:[now(),now(),now()]}]};
-function toast(m){S.toast=m;render();setTimeout(()=>{S.toast="";render()},2000)}
+accounts:[{key:"+919810022222",phone:"+919810022222",name:"Demo customer",pw:"demo1234",role:"customer",ok:true},{key:"+919006434998",phone:"+919006434998",name:OWNER,pw:"owner1234",role:"owner",ok:true}],
+reqs:[{id:101,type:"service",title:"Dell Inspiron won’t switch on",detail:"No power light since yesterday.",uid:"+919810022222",phone:"98100 22222",device:"Computer / Laptop",name:"Demo customer",s:2,hist:[now(),now(),now()]}]};
+let tt;function toast(m,re=true){if(re)render();const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},2500)}
 function timeline(r){return '<ul class="steps">'+FLOW[r.type].map((n,i)=>'<li class="'+(i<r.s?"done":i==r.s?"done now":"")+'">'+n+(r.hist[i]&&i<=r.s?'<small>'+r.hist[i]+'</small>':'')+'</li>').join("")+'</ul>'}
 function reqCard(r,o){const f=FLOW[r.type],last=r.s>=f.length-1;
 return '<div class="card"><div class="row"><div><span class="tag">'+LABEL[r.type]+(r.device?" · "+r.device:"")+'</span><div style="font-weight:600;margin-top:6px">'+esc(r.title)+'</div><div class="mute">'+(o?esc(r.name)+' · '+esc(r.phone)+' · ':'')+'Ref #'+r.id+'</div></div><span class="tag '+(last?'done':'')+'">'+f[r.s]+'</span></div>'+(r.detail?'<div class="mute" style="margin-top:6px">'+esc(r.detail)+'</div>':'')+timeline(r)+(o&&!last?'<button class="b sm" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'}
 function bar(title){return '<div class="hd slim"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>'+title+'</b><small>Aayush Computer</small></div><span class="sp"></span>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",30)+'</button></div></div>'}
 function nav(items){return '<nav class="nav">'+items.map(t=>'<button class="'+(S.view==t[0]?"on":"")+'" data-a="nav" data-v="'+t[0]+'">'+ic(t[2])+t[1]+'</button>').join("")+'</nav>'}
-function login(){return '<div class="hd" style="padding-bottom:26px"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>AAYUSH COMPUTER</b><small>Your Trusted Technology Partner</small></div></div><h1>Sign in</h1><p>Track your orders and repairs, or send an enquiry.</p></div><div class="body"><div class="seg"><button class="'+(S.role=="customer"?"on":"")+'" data-a="role" data-v="customer">Customer</button><button class="'+(S.role=="owner"?"on":"")+'" data-a="role" data-v="owner">Owner</button></div><label for="ph" style="margin-top:0">Mobile number</label><input class="f" id="ph" inputmode="numeric" value="'+(S.role=="owner"?"90064 34998":"98100 22222")+'"><label for="otp">One-time code</label><input class="f" id="otp" inputmode="numeric" value="1234"><p><button class="b" style="width:100%" data-a="login">Sign in with mobile code</button></p><p class="or">or</p><button class="b o" style="width:100%;margin-top:10px" data-a="google"><b style="color:#4285f4">G</b> Continue with Google</button><div class="hint">Demo only: any number works with code 1234, and Google sign-in is simulated. The real app sends the code by SMS and uses your Gmail account.</div></div>'}
+const LT={signin:["Sign in","Track your orders and repairs, or send an enquiry.","Sign in"],signup:["Create account","Sign up with your mobile number or email.","Create account"],verify:["Verify your account","Enter the code we sent you.","Verify and continue"],forgot:["Forgot password","We will send a code to your mobile number or email.","Send code"],reset:["Set a new password","Enter the code we sent you and choose a new password.","Save password and sign in"]};
+const MINPW=8;
+function parseId(v){v=String(v||"").trim();if(v.includes("@")){const e=v.toLowerCase();return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)?{email:e,key:e}:null}let d=v.replace(/[\s\-()]/g,"");if(d.startsWith("+91"))d=d.slice(3);else if(d.length==12&&d.startsWith("91"))d=d.slice(2);else if(d.length==11&&d.startsWith("0"))d=d.slice(1);return /^[6-9]\d{9}$/.test(d)?{phone:"+91"+d,key:"+91"+d}:null}
+const fmtPh=p=>p?p.slice(3,8)+" "+p.slice(8):"";
+const sentTo=a=>a.phone?"We sent a code by SMS to "+fmtPh(a.phone)+".":"We sent a code to "+a.email+".";
+function login(){const m=S.mode,t=LT[m],e=m=="signin"||m=="signup",np=m=="signup"||m=="reset",f=(id,lab,type,ac,extra)=>'<label for="'+id+'">'+lab+'</label><input class="f" id="'+id+'" type="'+type+'" autocomplete="'+ac+'"'+(extra||"")+'>';
+return '<div class="hd" style="padding-bottom:26px"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>AAYUSH COMPUTER</b><small>Your Trusted Technology Partner</small></div></div><h1>'+t[0]+'</h1><p>'+t[1]+'</p></div><div class="body">'
++(e?'<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="'+(m=="signin")+'" class="'+(m=="signin"?"on":"")+'" data-a="mode" data-v="signin">Sign in</button><button type="button" role="tab" aria-selected="'+(m=="signup")+'" class="'+(m=="signup"?"on":"")+'" data-a="mode" data-v="signup">Create account</button></div>':'')
++'<form data-a="'+m+'" novalidate>'
++(m=="signup"?f("lnm","Full name","text","name",' value="'+esc(S.lf.name||"")+'"'):'')
++(e||m=="forgot"?f("lid","Mobile number or email","text","username",' placeholder="98765 43210 or name@gmail.com" autocapitalize="none" spellcheck="false" value="'+esc(S.lf.id||"")+'"'):'')
++(m=="verify"||m=="reset"?f("lcode","Code","text","one-time-code",' inputmode="numeric" maxlength="10"'):'')
++(m!="verify"&&m!="forgot"?f("lpw",np?"New password":"Password","password",np?"new-password":"current-password",np?' placeholder="At least '+MINPW+' characters"':''):'')
++(np?f("lpw2","Confirm password","password","new-password"):'')
++(m=="signin"?'<button type="button" class="lnk r" data-a="mode" data-v="forgot">Forgot password?</button>':'')
++(S.info?'<p class="ok" role="status">'+esc(S.info)+'</p>':'')
++'<p><button type="submit" class="b" style="width:100%">'+t[2]+'</button></p></form>'
++(m=="verify"?'<button type="button" class="lnk c" data-a="resend">Resend code</button>':'')
++(!e?'<button type="button" class="lnk c" data-a="mode" data-v="signin">Back to sign in</button>':'')
++(e?'<p class="or">or</p><button type="button" class="b o" style="width:100%;margin-top:10px" data-a="google"><b style="color:#4285f4">G</b> '+(m=="signup"?"Sign up with Google":"Continue with Google")+'</button><p class="note">Use your Gmail account. New users get an account automatically.</p>':'')
++'<div class="hint">Demo only, nothing is sent. Customer: 98100 22222 / demo1234. Owner: 90064 34998 / owner1234. Any code is 1234, and Google sign-in is simulated.</div></div>'}
+const val=(id,raw)=>{const el=document.getElementById(id);return el?(raw?el.value:el.value.trim()):""};
+function enter(a){S.user={role:a.role,phone:fmtPh(a.phone),email:a.email||"",id:a.key,name:a.name};S.pending=null;S.lf={};S.info="";S.mode="signin";S.view=a.role=="owner"?"orq":"home";render()}
+function goMode(m,info){S.lf={id:val("lid")||S.lf.id||"",name:val("lnm")};S.mode=m;S.info=info||"";render()}
+function newPwOk(){const p=val("lpw",1);if(p.length<MINPW){toast("Password must be at least "+MINPW+" characters",false);return false}if(p!==val("lpw2",1)){toast("Passwords do not match",false);return false}return true}
+function authAct(a,v){
+if(a=="mode"){goMode(v);return true}
+if(a=="google"){const em="customer@gmail.com";let ac=S.accounts.find(x=>x.key==em);if(!ac){ac={key:em,email:em,name:"Google customer",role:"customer",ok:true};S.accounts.push(ac)}enter(ac);return true}
+if(a=="resend"){toast("New code sent (demo code 1234)",false);return true}
+const badId=()=>toast("Enter a 10-digit mobile number or a valid email",false);
+if(a=="signin"){const p=parseId(val("lid")),pw=val("lpw",1);if(!p)return badId(),true;if(!pw)return toast("Enter your password",false),true;const ac=S.accounts.find(x=>x.key==p.key);if(!ac||ac.pw!==pw)return toast("Wrong mobile number/email or password",false),true;if(!ac.ok){S.pending=ac;goMode("verify",sentTo(ac));return true}enter(ac);return true}
+if(a=="signup"){const n=val("lnm"),p=parseId(val("lid"));if(!n)return toast("Enter your name",false),true;if(!p)return badId(),true;if(!newPwOk())return true;if(S.accounts.some(x=>x.key==p.key))return toast("An account already exists. Sign in instead.",false),true;const ac={key:p.key,phone:p.phone,email:p.email,name:n,pw:val("lpw",1),role:"customer",ok:false};S.accounts.push(ac);S.pending=ac;goMode("verify",sentTo(ac));return true}
+if(a=="verify"){if(!S.pending){goMode("signin");return true}if(val("lcode")!=="1234")return toast("That code is wrong or has expired",false),true;S.pending.ok=true;enter(S.pending);return true}
+if(a=="forgot"){const p=parseId(val("lid"));if(!p)return badId(),true;const ac=S.accounts.find(x=>x.key==p.key);if(!ac)return toast("No account found for that mobile number or email",false),true;S.pending=ac;goMode("reset",sentTo(ac));return true}
+if(a=="reset"){if(!S.pending){goMode("forgot");return true}if(val("lcode")!=="1234")return toast("That code is wrong or has expired",false),true;if(!newPwOk())return true;S.pending.pw=val("lpw",1);S.pending.ok=true;enter(S.pending);return true}
+return false}
 function home(){return '<div class="hd"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>AAYUSH COMPUTER</b><small>Your Trusted Technology Partner</small></div><span class="sp"></span>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",32)+'</button></div><h1>Welcome to Aayush Computer!</h1><p>All Computer Solutions Under One Roof.</p><div class="search">'+ic("search",20)+'<input id="q" placeholder="Search laptops, printers, CCTV..." aria-label="Search products"></div></div><div class="body"><h2>Explore Categories</h2><div class="cats">'+CATS.map(c=>'<button class="cat" data-a="cat" data-v="'+c+'">'+ic(c,30)+c+'</button>').join("")+'</div><div class="assist"><h2>Need assistance?</h2><p>Connect with our team for product enquiries and technical support.</p><p style="margin:-6px 0 14px;font-weight:600;color:var(--ink)">'+OWNER+' · 90064 34998</p><div class="two"><a class="b g" href="tel:'+SHOP_PHONE+'">'+ic("phone",20)+'Call Now</a><button class="b" data-a="newreq" data-v="enquiry">'+ic("chat",20)+'Enquiry</button></div></div></div>'}
 function shop(){const q=S.q.toLowerCase(),L=S.products.filter(p=>p.on&&(S.cat=="All"||p.cat==S.cat)&&p.name.toLowerCase().includes(q));
 return bar("Shop")+'<div class="body"><div class="chips">'+["All",...CATS.slice(0,5)].map(c=>'<button class="chip '+(S.cat==c?"on":"")+'" data-a="chip" data-v="'+c+'">'+c+'</button>').join("")+'</div>'+fromBanner()+(S.q?'<p class="mute">Results for “'+esc(S.q)+'” <button class="chip" data-a="clearq">Clear</button></p>':'')+(L.length?L.map(p=>'<div class="card pc"><div class="art">'+art(p)+'</div><div style="flex:1;min-width:0"><div style="font-weight:600">'+esc(p.name)+'</div><div class="mute">'+p.cat+(p.used?" · Second-hand":"")+'</div><div style="font-weight:700;margin:4px 0 8px">'+rs(p.price)+'</div><button class="b sm" data-a="order" data-id="'+p.id+'">Order</button></div></div>').join(""):'<div class="card"><b>No products found.</b><p class="mute">Try another category, or send us an enquiry.</p><button class="b sm" data-a="newreq" data-v="enquiry">Send enquiry</button></div>')+'</div>'}
@@ -126,22 +164,21 @@ if(S.view=="profile")return profile()+nav([["orq","Requests","clip"],["prod","Pr
 if(S.view=="prod"){b=bar("Products")+'<div class="body"><div class="card"><label for="pn" style="margin-top:0">Add a product</label><input class="f" id="pn" placeholder="Name"><div class="two"><div><label for="pp">Price (₹)</label><input class="f" id="pp" inputmode="numeric"></div><div><label for="pc">Category</label><select id="pc">'+CATS.slice(0,5).map(c=>'<option>'+c+'</option>').join("")+'</select></div></div><p><button class="b" style="width:100%" data-a="addp">Add product</button></p></div>'+S.products.map(p=>'<div class="card row" style="align-items:center"><div><b>'+esc(p.name)+'</b><div class="mute">'+rs(p.price)+' · '+p.cat+' · '+(p.on?"Visible":"Hidden")+'</div></div><button class="b o sm" data-a="togp" data-id="'+p.id+'">'+(p.on?"Hide":"Show")+'</button></div>').join("")+'</div>'}
 else{b=bar("Requests")+'<div class="body"><div class="stats"><div class="card"><b>'+open.length+'</b><span class="mute">Open</span></div><div class="card"><b>'+R.filter(r=>r.type=="service"&&r.s<4).length+'</b><span class="mute">Repairs</span></div><div class="card"><b>'+R.filter(r=>r.type!="service"&&r.s==0).length+'</b><span class="mute">New</span></div></div>'+(open.length?open.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>All caught up.</b><p class="mute">No open requests right now.</p></div>')+'</div>'}
 return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
-function render(){const y=window.scrollY;let h=!S.user?login():S.user.role=="owner"?owner():customer();if(S.toast)h+='<div class="toast" role="status">'+S.toast+'</div>';document.getElementById("app").innerHTML=h;window.scrollTo(0,y)}
+function render(){const y=window.scrollY;let h=!S.user?login():S.user.role=="owner"?owner():customer();document.getElementById("app").innerHTML=h;window.scrollTo(0,y)}
 function add(type,title,detail,device,phone){const id=Math.max(100,...S.reqs.map(r=>r.id))+1,ph=phone||S.user.phone||"";S.reqs.push({id,type,title,detail,device,uid:S.user.id,phone:ph,name:S.user.name||("Customer "+(ph||S.user.email)),s:0,hist:[now()]});notify("owner","New "+LABEL[type].toLowerCase()+" #"+id+(device?" ("+device+")":"")+": "+title,"90064 34998");notify(S.user.id,LABEL[type]+" #"+id+" received. We’ll keep you updated.",ph||S.user.email);S.view="reqs";toast("Sent. Reference #"+id+". Owner notified.")}
-document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el)return;const a=el.dataset.a,id=+el.dataset.id,v=el.dataset.v;
-if(a=="role"){S.role=v;render()}
-else if(a=="login"){const ph=document.getElementById("ph").value.trim()||"98100 22222";S.user={role:S.role,phone:ph,id:ph};S.view=S.role=="owner"?"orq":"home";render()}
-else if(a=="google"){const em=S.role=="owner"?"nitish@gmail.com":"customer@gmail.com";S.user={role:S.role,phone:"",email:em,id:em,name:S.role=="owner"?OWNER:"Google customer"};S.view=S.role=="owner"?"orq":"home";render()}
-else if(a=="logout"){S.user=null;render()}
+document.addEventListener("submit",e=>{e.preventDefault();if(!S.user)authAct(e.target.dataset.a)});
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.tagName=="FORM")return;const a=el.dataset.a,id=+el.dataset.id,v=el.dataset.v;
+if(!S.user){authAct(a,v);return}
+if(a=="logout"){S.user=null;S.mode="signin";render()}
 else if(a=="nav"){S.view=v;if(v=="shop"){S.cat="All";S.q=""}render()}
 else if(a=="cat"){if(v=="Repair"){S.ft="service";S.view="newreq"}else{S.cat=v;S.q="";S.view="shop"}render()}
 else if(a=="chip"){S.cat=v;render()}
 else if(a=="clearq"){S.q="";render()}
 else if(a=="newreq"){S.ft=v;S.view="newreq";render()}
-else if(a=="submit"){const t=document.getElementById("ti").value.trim();if(!t){toast("Enter the device or product");return}const ty=document.getElementById("ty").value,mp=document.getElementById("mp").value.trim();if(!mp){toast("Enter your mobile number for SMS updates");return}add(ty,t,document.getElementById("de").value.trim(),document.getElementById("dv").value,mp)}
+else if(a=="submit"){const t=document.getElementById("ti").value.trim();if(!t){toast("Enter the device or product",false);return}const ty=document.getElementById("ty").value,mp=document.getElementById("mp").value.trim();if(!mp){toast("Enter your mobile number for SMS updates",false);return}add(ty,t,document.getElementById("de").value.trim(),document.getElementById("dv").value,mp)}
 else if(a=="order"){const p=S.products.find(x=>x.id==id);add("order",p.name,rs(p.price))}
 else if(a=="adv"){const r=S.reqs.find(x=>x.id==id);r.s++;r.hist[r.s]=now();notify(r.uid,LABEL[r.type]+" #"+r.id+(r.device?" ("+r.device+")":"")+": "+FLOW[r.type][r.s],r.phone||r.uid);toast("Customer notified by app and SMS: "+FLOW[r.type][r.s])}
-else if(a=="addp"){const n=document.getElementById("pn").value.trim(),p=+document.getElementById("pp").value;if(!n||!p){toast("Enter a name and a price");return}S.products.push({id:Date.now(),name:n,price:p,cat:document.getElementById("pc").value,on:true});toast("Product added")}
+else if(a=="addp"){const n=document.getElementById("pn").value.trim(),p=+document.getElementById("pp").value;if(!n||!p){toast("Enter a name and a price",false);return}S.products.push({id:Date.now(),name:n,price:p,cat:document.getElementById("pc").value,on:true});toast("Product added")}
 else if(a=="togp"){const p=S.products.find(x=>x.id==id);p.on=!p.on;render()}});
 document.addEventListener("keydown",e=>{if(e.key=="Enter"&&e.target.id=="q"){S.q=e.target.value.trim();S.cat="All";S.view="shop";render()}});
 render();

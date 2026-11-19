@@ -6,9 +6,7 @@ Managed database, login, file storage and automatic backups, so no server to mai
 
 1. Create a free account at supabase.com using the shop's own email. Create a project (choose the region closest to India).
 2. Open SQL Editor, paste all of `supabase/schema.sql`, and click Run.
-3. Authentication > Providers:
-   - Google: create an OAuth client in Google Cloud Console (under the shop's Google account) and paste its client ID and secret.
-   - Phone: pick an SMS provider and paste its keys. For India, register your sender ID and message templates (DLT) with that provider first.
+3. Set up login (next section).
 4. Sign in to the app once as Nitish, then make that account the owner by running this in SQL Editor (use his real email):
 
        update public.profiles
@@ -16,6 +14,21 @@ Managed database, login, file storage and automatic backups, so no server to mai
        where email = 'nitish@example.com';
 
 5. Never commit keys. Keep them in `.env` (already ignored by git). The app only ever uses the project URL and the public anon key.
+
+## Login setup
+
+The app offers three ways in: mobile number + password, email (Gmail) + password, and "Continue with Google". New users create an account with "Create account" (or Google, which signs up automatically). Codes are sent only to confirm a new account and to reset a forgotten password, not at every sign-in.
+
+In Supabase > Authentication:
+
+1. **Providers > Email**: on. Keep "Confirm email" on.
+2. **Providers > Phone**: on, with "Enable phone confirmations" on. Pick an SMS provider and paste its keys. For India, register your sender ID and message templates (DLT) with that provider first.
+3. **Providers > Google**: see `../docs/GOOGLE_LOGIN_SETUP.md`.
+4. **Password**: set the minimum password length to 8 (the app also checks this).
+5. **Email templates**: the app asks the user to type a code, so add the code to two templates:
+   - "Confirm signup": `Your Aayush Computer code is {{ .Token }}`
+   - "Reset password": `Your Aayush Computer password reset code is {{ .Token }}`
+6. **SMTP settings**: add your own email sender (for example Brevo, Resend or Gmail SMTP). Supabase's built-in sender only delivers a few emails an hour, and only to your team's addresses, so customers would not get their codes.
 
 ## What the database does by itself
 

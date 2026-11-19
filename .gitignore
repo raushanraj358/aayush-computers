@@ -1,0 +1,18 @@
+# Secrets: never commit real keys
+.env
+.env.*
+!.env.example
+
+# Mobile app build output
+node_modules/
+.expo/
+dist/
+web-build/
+android/
+ios/
+*.keystore
+*.jks
+
+# OS and editor files
+.DS_Store
+.idea/workspace.xml

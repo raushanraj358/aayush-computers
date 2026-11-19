@@ -7,7 +7,7 @@ Android app (Google Play). The web version stays as the owner's counter-PC view 
 - Customers can register a service request for a printer, CCTV, computer/laptop, networking or other device. It is saved on their profile.
 - The owner is notified by SMS and inside the app when a new request or order arrives.
 - The owner updates the status at each repair step. The customer is notified by SMS and inside the app at every step.
-- Login options: Google (Gmail) and mobile number with SMS one-time code.
+- Login options: mobile number or email (Gmail) with a password, or "Continue with Google". New users can create an account (name, mobile number or email, password) or sign up with Google. A one-time code (SMS or email) confirms a new account and resets a forgotten password.
 
 ## Roles
 - Customer: browse shop, place orders, send repair requests and enquiries, track status

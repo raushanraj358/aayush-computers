@@ -24,11 +24,15 @@ export function useSession() {
 
   useEffect(() => {
     if (!session) return;
+    let active = true;
+    setLoading(true); // a different user signed in: wait for their role before showing screens
     supabase.from('profiles').select('role').eq('id', session.user.id).single()
       .then(({ data }) => {
+        if (!active) return;
         setRole((data?.role as Role) ?? 'customer');
         setLoading(false);
       });
+    return () => { active = false; };
   }, [session?.user.id]);
 
   return { session, role, loading };

@@ -5,6 +5,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { supabase } from './supabase';
+import type { AuthResult } from './auth';
 
 // Must be the WEB application client ID, not the Android client ID.
 GoogleSignin.configure({
@@ -12,8 +13,7 @@ GoogleSignin.configure({
   scopes: ['email', 'profile'],
 });
 
-export type AuthResult = { ok: true } | { ok: false; message: string };
-
+// Google sign-in also signs up: Supabase creates the account the first time a Gmail user signs in.
 export async function signInWithGoogle(): Promise<AuthResult> {
   try {
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });

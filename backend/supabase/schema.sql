@@ -15,8 +15,15 @@ create table public.profiles (
 create function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
+  -- Works for all sign-up methods: Google (name comes as full_name or name), email + password, mobile + password.
+  -- Supabase stores phone numbers without '+', so add it back (+919006434998).
   insert into public.profiles (id, email, phone, full_name)
-  values (new.id, new.email, new.phone, coalesce(new.raw_user_meta_data->>'full_name', ''));
+  values (
+    new.id,
+    nullif(new.email, ''),
+    case when coalesce(new.phone, '') <> '' then '+' || ltrim(new.phone, '+') end,
+    coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', '')
+  );
   return new;
 end $$;
 
