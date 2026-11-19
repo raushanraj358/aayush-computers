@@ -8,10 +8,10 @@ Owner: Nitish Kamlapuri, 90064 34998
 
 | Folder | What is in it | Status |
 |---|---|---|
-| `index.html` | The website (single file). Login is real (Supabase); requests, orders, products and alerts are still demo data | Login live |
+| `index.html` | The website (single file). Login, products, orders, repairs, enquiries and in-app alerts all use Supabase | Live (SMS not yet) |
 | `web/` | Old address, forwards to the website | |
 | `mobile/` | Android app for customers and the owner (React Native with Expo) | Not started |
-| `backend/` | Supabase database and security rules (`supabase/schema.sql`) | Schema written, not yet deployed |
+| `backend/` | Supabase database and security rules (`supabase/schema.sql`, then `supabase/002_app_access.sql`) | Deployed |
 | `docs/` | Project notes: requirements, roles, statuses, categories, pricing | Done |
 
 ## Try the website

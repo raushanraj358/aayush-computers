@@ -188,6 +188,9 @@ create policy "notifications update" on public.notifications for update to authe
 revoke update on public.notifications from authenticated;
 grant update (read) on public.notifications to authenticated;
 
+-- table access for signed-in users (newer Supabase projects don't grant it automatically)
+-- the full list of grants is in 002_app_access.sql; run that file right after this one
+
 -- live updates in the app
 alter publication supabase_realtime add table public.notifications, public.requests;
 
