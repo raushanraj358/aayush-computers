@@ -22,7 +22,7 @@ Flow: the app asks Google for an ID token, then Supabase checks it and starts th
 1. Turn Google **on**.
 2. Paste the Web client ID and Web client secret.
 3. In "Authorized Client IDs" (for native sign-in), add the Web client ID and the Android client ID(s), separated by commas.
-4. Authentication > URL Configuration: Site URL `https://raushanraj358.github.io/aayush-computers/`.
+4. Authentication > URL Configuration: Site URL `https://raushanraj358.github.io/aayush-computers/`, and add the same address under Redirect URLs.
 
 ## 3. App setup
 
@@ -49,12 +49,9 @@ Sign in once with his Gmail, then run in Supabase SQL Editor:
 
     update public.profiles set role = 'owner', phone = '+919006434998' where email = 'HIS-GMAIL@gmail.com';
 
-## Website version (later)
+## Website
 
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: 'https://raushanraj358.github.io/aayush-computers/' },
-    });
+Already built into `index.html`: "Continue with Google" calls `supabase.auth.signInWithOAuth` and returns to the page it was started from. It only works on the live site, not from a file opened on your computer.
 
 ## Troubleshooting
 

@@ -8,20 +8,21 @@ Owner: Nitish Kamlapuri, 90064 34998
 
 | Folder | What is in it | Status |
 |---|---|---|
-| `web/` | Clickable prototype (single `index.html`, demo data only) | Done |
+| `index.html` | The website (single file). Login is real (Supabase); requests, orders, products and alerts are still demo data | Login live |
+| `web/` | Old address, forwards to the website | |
 | `mobile/` | Android app for customers and the owner (React Native with Expo) | Not started |
 | `backend/` | Supabase database and security rules (`supabase/schema.sql`) | Schema written, not yet deployed |
 | `docs/` | Project notes: requirements, roles, statuses, categories, pricing | Done |
 
-## Try the prototype
+## Try the website
 
-Open `web/index.html` in a browser. Demo login (mobile number or email + password): customer `98100 22222` / `demo1234`, owner `90064 34998` / `owner1234`. You can also create an account (demo code `1234`), reset a password, or use "Continue with Google" (simulated).
+Live at https://raushanraj358.github.io/aayush-computers/. Sign in with your mobile number or email and a password, create an account, or use "Continue with Google". Opening `index.html` straight from your computer also works for email and password login, but Google login only works on the live site.
 
 ## Host the prototype for free (GitHub Pages)
 
 1. Upload the contents of this folder to a public GitHub repository.
 2. Repository Settings > Pages > Source: Deploy from a branch > Branch `main`, folder `/ (root)` > Save.
-3. After a minute or two the site is live at `https://YOUR-USERNAME.github.io/REPO-NAME/`. The root `index.html` forwards to `web/index.html`.
+3. After a minute or two the site is live at `https://YOUR-USERNAME.github.io/REPO-NAME/`.
 
 GitHub Pages hosts only the web prototype. The Android app is published through Google Play and the backend runs on Supabase.
 
