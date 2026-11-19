@@ -16,7 +16,7 @@ body{margin:0;background:var(--navy);color:var(--ink);font:16px/1.45 system-ui,-
 .hd{background:var(--navy);color:#fff;padding:16px 18px 18px}
 .hd.slim{padding-bottom:14px}
 .brand{display:flex;align-items:center;gap:12px}
-.logo{width:48px;height:48px;border-radius:12px;background:#fff;color:var(--navy);display:grid;place-items:center;flex:none}
+.logo{height:48px;padding:0 8px;border-radius:12px;background:#fff;display:grid;place-items:center;flex:none}.logo img{height:30px;width:auto;display:block}
 .brand b{display:block;font-size:1.35rem;letter-spacing:.01em;line-height:1.1}
 .brand small{opacity:.9;font-size:.92rem}
 .brand .sp{flex:1}
@@ -78,7 +78,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <div id="toast" class="toast" role="status" hidden></div>
 <script>
 const SHOP_PHONE="+919006434998",OWNER="Nitish Kamlapuri";
-const LOGO='<svg width="48" height="48" viewBox="0 0 48 48" role="img" aria-label="Aayush Computer logo"><rect width="48" height="48" rx="12" fill="#fff"/><path d="M11 37L24 10l13 27" fill="none" stroke="#143560" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="16.5" y="27" width="15" height="5" rx="2.5" fill="#16a34a"/><circle cx="24" cy="10" r="3.6" fill="#2563eb"/></svg>';
+const LOGO='<img src="logo.png" width="65" height="30" alt="Aayush Computers logo">';
 function art(p){const c={Dell:"#1f3b57",HP:"#3b6fb6",Acer:"#2f7d4f",Lenovo:"#b3262d"}[p.brand]||"#475569",o='<svg viewBox="0 0 96 72" aria-hidden="true">';
 if(p.cat=="Laptops")return o+'<rect x="17" y="8" width="62" height="40" rx="4" fill="'+c+'"/><rect x="21" y="12" width="54" height="32" rx="2" fill="#cfe2ff"/><text x="48" y="32" text-anchor="middle" font-size="11" font-weight="700" fill="'+c+'" font-family="system-ui,sans-serif">'+(p.brand||"")+'</text><path d="M8 52h80l-6 8H14z" fill="#94a3b8"/><rect x="38" y="54" width="20" height="2" rx="1" fill="#64748b"/></svg>';
 if(p.cat=="CCTV")return o+(p.dome?'<path d="M20 42a28 28 0 0 1 56 0z" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/><circle cx="48" cy="34" r="8" fill="#334155"/><circle cx="48" cy="34" r="3" fill="#38bdf8"/><rect x="14" y="42" width="68" height="6" rx="3" fill="#94a3b8"/>':'<rect x="14" y="20" width="52" height="22" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/><rect x="58" y="23" width="14" height="16" rx="3" fill="#334155"/><circle cx="65" cy="31" r="4" fill="#38bdf8"/><path d="M34 42v14M26 58h16" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>')+'</svg>';
