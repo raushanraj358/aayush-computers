@@ -9,3 +9,6 @@ Screens (match `../web/index.html`):
 Create the app here later with:
 
     npx create-expo-app@latest .
+
+## Google login
+Code is in `src/lib/googleAuth.ts`, `src/lib/supabase.ts`, `src/hooks/useSession.ts` and `src/screens/LoginScreen.tsx`. Setup steps are in `../docs/GOOGLE_LOGIN_SETUP.md`.

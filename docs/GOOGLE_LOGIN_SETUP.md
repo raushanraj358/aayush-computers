@@ -4,15 +4,15 @@ Flow: the app asks Google for an ID token, then Supabase checks it and starts th
 
 ## 1. Google Cloud (console.cloud.google.com)
 
-1. Create a project named "Ayush Computer".
-2. Google Auth Platform (OAuth consent screen): app name "Ayush Computer", support email, audience "External". Scopes needed: email, profile, openid. Click **Publish app** so any Gmail user can sign in (otherwise only listed test users can). These basic scopes normally need no Google review.
+1. Create a project named "Aayush Computer".
+2. Google Auth Platform (OAuth consent screen): app name "Aayush Computer", support email, audience "External". Scopes needed: email, profile, openid. Click **Publish app** so any Gmail user can sign in (otherwise only listed test users can). These basic scopes normally need no Google review.
 3. Credentials > Create credentials > OAuth client ID:
-   - **Web application** (name: Ayush Web)
+   - **Web application** (name: Aayush Web)
      - Authorized redirect URI: `https://YOUR-PROJECT-REF.supabase.co/auth/v1/callback`
      - Authorized JavaScript origin (for the website): `https://raushanraj358.github.io`
      - Copy the **Client ID** and **Client secret**.
-   - **Android** (name: Ayush Android), one per signing key:
-     - Package name: `com.ayushcomputer.app` (must match the app)
+   - **Android** (name: Aayush Android), one per signing key:
+     - Package name: `com.aayushcomputer.app` (must match the app)
      - SHA-1 of the key that signs the build:
        - Development build: run `eas credentials` (Android) and copy the SHA-1.
        - Play Store release: Google Play Console > App integrity > App signing key certificate (menu names may differ slightly). Add a second Android client for the upload key too.
@@ -34,7 +34,7 @@ In `app.json` add the plugin and the package name:
 
     {
       "expo": {
-        "android": { "package": "com.ayushcomputer.app" },
+        "android": { "package": "com.aayushcomputer.app" },
         "plugins": ["@react-native-google-signin/google-signin"]
       }
     }

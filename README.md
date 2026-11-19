@@ -1,6 +1,6 @@
-# Ayush Computer
+# Aayush Computer
 
-Web and mobile app for Ayush Computer: sales enquiries, repair requests, orders and status tracking.
+Web and mobile app for Aayush Computer: sales enquiries, repair requests, orders and status tracking.
 
 Owner: Nitish Kamlapuri, 90064 34998
 
@@ -17,13 +17,16 @@ Owner: Nitish Kamlapuri, 90064 34998
 
 Open `web/index.html` in a browser. Demo login: any mobile number with code `1234`, or "Continue with Google" (simulated). Choose Customer or Owner on the sign-in screen.
 
-## Host the prototype for free
+## Host the prototype for free (GitHub Pages)
 
-- GitHub Pages: push this repo, then Settings > Pages and deploy from the `web` folder (or move `index.html` to the repo root).
-- Or drag the `web` folder into Netlify Drop.
+1. Upload the contents of this folder to a public GitHub repository.
+2. Repository Settings > Pages > Source: Deploy from a branch > Branch `main`, folder `/ (root)` > Save.
+3. After a minute or two the site is live at `https://YOUR-USERNAME.github.io/REPO-NAME/`. The root `index.html` forwards to `web/index.html`.
+
+GitHub Pages hosts only the web prototype. The Android app is published through Google Play and the backend runs on Supabase.
 
 ## Next steps
 
 1. Replace demo data with a real backend (see `backend/README.md`).
 2. Build the mobile app (see `mobile/README.md`).
-3. Create all accounts (GitHub, hosting, database, SMS, Google Play, Apple) under Ayush Computer's own email so the owner holds full control.
+3. Create all accounts (GitHub, hosting, database, SMS, Google Play, Apple) under Aayush Computer's own email so the owner holds full control.

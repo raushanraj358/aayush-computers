@@ -18,7 +18,7 @@ export default function LoginScreen() {
   return (
     <View style={s.screen}>
       <View style={s.header}>
-        <Text style={s.brand}>AYUSH COMPUTER</Text>
+        <Text style={s.brand}>AAYUSH COMPUTER</Text>
         <Text style={s.tag}>Your Trusted Technology Partner</Text>
         <Text style={s.title}>Sign in</Text>
         <Text style={s.sub}>Track your orders and repairs, or send an enquiry.</Text>
