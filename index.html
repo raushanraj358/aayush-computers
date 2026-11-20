@@ -61,6 +61,7 @@ textarea{min-height:90px;resize:vertical}
 .seg button{border:0;background:none;padding:10px;border-radius:9px;font:inherit;font-weight:600;cursor:pointer;color:var(--mute)}
 .seg button.on{background:var(--blue);color:#fff}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{font:inherit;color:var(--ink);cursor:pointer;width:100%}.stat.on{border-color:var(--blue);background:var(--tile);box-shadow:inset 0 0 0 1px var(--blue)}.stat.on .mute{color:var(--blue);font-weight:600}
 .stats .card{margin:0;text-align:center;padding:12px 6px}
 .stats b{display:block;font-size:1.6rem}
 .pc{display:flex;gap:12px;align-items:center}.art{flex:none;width:96px;height:72px;border-radius:10px;background:var(--tile);display:grid;place-items:center}.art svg{width:92px;height:68px}.art img{width:100%;height:100%;object-fit:cover;border-radius:10px;display:block}.banner{background:var(--tile);border-radius:10px;padding:10px 12px;margin-bottom:12px}.bell{position:relative}.dot{position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font:700 .68rem system-ui,sans-serif;border-radius:99px;min-width:17px;height:17px;display:grid;place-items:center;font-style:normal}.sms{margin-top:6px;font-size:.82rem;color:var(--green);font-weight:600}.or{text-align:center;color:var(--mute);margin:12px 0 0;font-size:.85rem}
@@ -256,10 +257,19 @@ function reqs(){const m=S.reqs.filter(r=>r.uid==S.user.id);return bar("My reques
 function newreq(){return bar("New request")+'<div class="body"><div class="card"><label for="ty" style="margin-top:0">What do you need?</label><select id="ty"><option value="service" '+(S.ft=="service"?"selected":"")+'>Repair my device</option><option value="enquiry" '+(S.ft=="enquiry"?"selected":"")+'>Ask about a product</option></select><label for="dv">Type</label><select id="dv"><option>Computer / Laptop</option><option>Printer</option><option>CCTV camera</option><option>Networking</option><option>Other</option></select><label for="ti">Device or product</label><input class="f" id="ti" placeholder="e.g. HP laptop, or 4 CCTV cameras"><label for="mp">Mobile number</label><input class="f" id="mp" inputmode="tel" autocomplete="tel" value="'+esc(S.user.phone||"")+'"><label for="de">Describe the problem or requirement</label><textarea id="de"></textarea><p><button class="b" style="width:100%" data-a="submit">Send request</button></p></div></div>'}
 function profile(){const o=S.user.role=="owner";return bar("Profile")+'<div class="body"><div class="card"><b>'+esc(S.user.name||(o?OWNER:"Customer"))+'</b><div class="mute">'+(o?"Shop owner · ":"")+esc(S.user.phone||S.user.email)+'</div></div><button class="b o" style="width:100%" data-a="logout">Sign out</button></div>'}
 function customer(){const v=S.view,m={home,shop,reqs,newreq,profile,notes:notesView,order:orderView};return (m[v]||home)()+nav([["home","Home","home"],["shop","Shop","bag"],["reqs","Requests","clip"],["profile","Profile","user"]])}
+// Owner request filters: the three boxes at the top of Requests, plus Completed.
+const isDone=r=>r.s>=FLOW[r.type].length-1;
+const OF={open:{box:"Open",title:"Open requests",empty:"All caught up. No open requests.",test:r=>!isDone(r)},
+repair:{box:"Repairs",title:"Open repairs",empty:"No repairs in progress.",test:r=>r.type=="service"&&!isDone(r)},
+new:{box:"New",title:"New, not started",empty:"Nothing new. Every request has been picked up.",test:r=>r.s==0&&!isDone(r)},
+done:{title:"Completed",empty:"Nothing completed yet.",test:isDone}};
 function owner(){const R=S.reqs,open=R.filter(r=>r.s<FLOW[r.type].length-1);let b;if(S.view=="notes")return notesView()+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]]);
 if(S.view=="profile")return profile()+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]]);
 if(S.view=="prod")b=prodAdmin();else if(S.view=="pedit")b=prodEdit();
-else{b=bar("Requests")+'<div class="body"><div class="stats"><div class="card"><b>'+open.length+'</b><span class="mute">Open</span></div><div class="card"><b>'+R.filter(r=>r.type=="service"&&r.s<4).length+'</b><span class="mute">Repairs</span></div><div class="card"><b>'+R.filter(r=>r.type!="service"&&r.s==0).length+'</b><span class="mute">New</span></div></div>'+(!S.loaded?WAIT:open.length?open.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>All caught up.</b><p class="mute">No open requests right now.</p></div>')+'</div>'}
+else{const f=OF[S.of]?S.of:"open",list=R.filter(OF[f].test),
+box=k=>'<button type="button" class="card stat'+(f==k?' on':'')+'" data-a="ofilter" data-v="'+k+'" aria-pressed="'+(f==k)+'"><b>'+(S.loaded?R.filter(OF[k].test).length:"–")+'</b><span class="mute">'+OF[k].box+'</span></button>';
+b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+OF[f].title+(S.loaded?' ('+list.length+')':'')+'</h2>'+(f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
++(!S.loaded?WAIT:list.length?list.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>'+OF[f].empty+'</b></div>')+'</div>'}
 return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
 // Redrawing the same screen (background refresh, new alert) keeps whatever the user has typed.
 let lastKey="";
@@ -278,6 +288,7 @@ if(a=="logout"){S.user=null;S.mode="signin";render();if(sb)sb.auth.signOut()}
 else if(a=="nav"){if(v!=S.view)setPhoto(null);S.view=v;if(v=="shop"){S.cat="All";S.q=""}if(v=="notes")markRead();render();if(v!="profile"&&v!="home")loadData()}
 else if(a=="cat"){if(v=="Repair"){S.ft="service";S.view="newreq"}else{S.cat=v;S.q="";S.view="shop"}render()}
 else if(a=="chip"){S.cat=v;render()}
+else if(a=="ofilter"){S.of=v;render()}
 else if(a=="clearq"){S.q="";render()}
 else if(a=="newreq"){S.ft=v;S.view="newreq";render()}
 else if(a=="submit"){const t=val("ti");if(!t){toast("Enter the device or product",false);return}const ph=phoneOk();if(!ph)return;run(()=>add(val("ty"),t,val("de"),val("dv"),ph))}
