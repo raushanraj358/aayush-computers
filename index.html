@@ -179,9 +179,18 @@ const LT={signin:["Sign in","Track your orders and repairs, or send an enquiry."
 const MINPW=8;
 function parseId(v){v=String(v||"").trim();if(v.includes("@")){const e=v.toLowerCase();return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)?{email:e,key:e}:null}let d=v.replace(/[\s\-()]/g,"");if(d.startsWith("+91"))d=d.slice(3);else if(d.length==12&&d.startsWith("91"))d=d.slice(2);else if(d.length==11&&d.startsWith("0"))d=d.slice(1);return /^[6-9]\d{9}$/.test(d)?{phone:"+91"+d,key:"+91"+d}:null}
 const fmtPh=p=>p?p.slice(3,8)+" "+p.slice(8):"";
-const sentTo=a=>a.phone?"We sent a code by SMS to "+fmtPh(a.phone)+".":"We sent an email to "+a.email+". Enter the code from it below, or tap the link in it. Check your spam folder too.";
+const sentTo=a=>a.phone?"We sent a code by SMS to "+fmtPh(a.phone)+".":"We sent an email to "+a.email+". Tap the link in it.";
 function login(){const m=S.mode,t=LT[m],e=m=="signin"||m=="signup",np=m=="signup"||m=="reset"||m=="newpw",f=(id,lab,type,ac,extra)=>'<label for="'+id+'">'+lab+'</label><input class="f" id="'+id+'" type="'+type+'" autocomplete="'+ac+'"'+(extra||"")+'>';
-return '<div class="hd" style="padding-bottom:26px"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div><h1>'+t[0]+'</h1><p>'+t[1]+'</p></div><div class="body">'
+hd=(a,b)=>'<div class="hd" style="padding-bottom:26px"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div><h1>'+a+'</h1><p>'+b+'</p></div><div class="body">';
+// Email accounts get a link, not a code: Supabase emails a "Confirm your email" or "Reset password" link.
+if((m=="verify"||m=="reset")&&S.pending&&S.pending.email){const v=m=="verify",em='<b>'+esc(S.pending.email)+'</b>';
+return hd("Check your email",v?"Confirm your email address to finish creating your account.":"Use the link we emailed you to choose a new password.")
++'<div class="card">'+(v?'<p style="margin-top:0">We sent an email to '+em+'.</p><p>Open it and tap the <b>confirm</b> link. You will come back here, signed in.</p>'
+:'<p style="margin-top:0">We sent a password reset email to '+em+'.</p><p>Open it and tap the link. You will come back here to choose a new password.</p>')
++'<p class="mute" style="margin-bottom:0">Not in your inbox? Check the Spam and Promotions folders. It can take a minute to arrive.</p></div>'
++(v?'<p><button type="button" class="b" style="width:100%" data-a="mode" data-v="signin">I have confirmed, sign in</button></p>':'')
++'<button type="button" class="lnk c" data-a="resend">Resend email</button><button type="button" class="lnk c" data-a="mode" data-v="signin">Back to sign in</button></div>'}
+return hd(t[0],t[1])
 +(e?'<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="'+(m=="signin")+'" class="'+(m=="signin"?"on":"")+'" data-a="mode" data-v="signin">Sign in</button><button type="button" role="tab" aria-selected="'+(m=="signup")+'" class="'+(m=="signup"?"on":"")+'" data-a="mode" data-v="signup">Create account</button></div>':'')
 +'<form data-a="'+m+'" novalidate>'
 +(m=="signup"?f("lnm","Full name","text","name",' value="'+esc(S.lf.name||"")+'"'):'')
@@ -232,7 +241,7 @@ const badId=()=>toast("Enter a 10-digit mobile number or a valid email",false),n
 if(a=="google"){const st=await fetch(SB_URL+"/auth/v1/settings",{headers:{apikey:SB_KEY}}).then(r=>r.json()).catch(()=>null);
 if(st&&st.external&&!st.external.google)return toast("Google sign-in isn't switched on yet. Use your email for now.",false);
 need(await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:HERE}}));return}
-if(a=="resend"){const p=S.pending;if(!p)return;need(await sb.auth.resend(p.phone?{type:"sms",phone:p.phone}:{type:"signup",email:p.email,options:{emailRedirectTo:HERE}}));return toast(p.phone?"New code sent":"New email sent",false)}
+if(a=="resend"){const p=S.pending;if(!p)return;if(p.email&&S.mode=="reset"){need(await sb.auth.resetPasswordForEmail(p.email,{redirectTo:HERE}));return toast("New email sent",false)}need(await sb.auth.resend(p.phone?{type:"sms",phone:p.phone}:{type:"signup",email:p.email,options:{emailRedirectTo:HERE}}));return toast(p.phone?"New code sent":"New email sent",false)}
 if(a=="signin"){const p=parseId(val("lid")),pw=val("lpw",1);if(!p)return badId();if(!pw)return toast("Enter your password",false);
 const {error}=await sb.auth.signInWithPassword({...creds(p),password:pw});if(!error)return;
 if(error.code=="email_not_confirmed"||error.code=="phone_not_confirmed"||/not confirmed/i.test(error.message)){S.pending=p;await sb.auth.resend(p.phone?{type:"sms",phone:p.phone}:{type:"signup",email:p.email,options:{emailRedirectTo:HERE}});return goMode("verify",sentTo(p))}

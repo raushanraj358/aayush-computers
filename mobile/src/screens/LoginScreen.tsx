@@ -103,8 +103,8 @@ export default function LoginScreen() {
 
   const onResend = () => run('form', async () => {
     if (!target) return;
-    const r = await resendSignUpCode(target);
-    if (r.ok) setInfo('New code sent. ' + codeSentMessage(target));
+    const r = mode === 'reset' ? await sendResetCode(target) : await resendSignUpCode(target);
+    if (r.ok) setInfo(target.kind === 'email' ? 'New email sent.' : 'New code sent. ' + codeSentMessage(target));
     else setError(r.message);
   });
 
@@ -112,6 +112,40 @@ export default function LoginScreen() {
     const r = await signInWithGoogle();
     if (!r.ok) setError(r.message);
   });
+
+  // Email accounts get a link, not a code: Supabase emails a "Confirm your email" or "Reset password" link.
+  // The link opens the website (signs in there / sets the new password); then the user signs in here.
+  if ((mode === 'verify' || mode === 'reset') && target?.kind === 'email') {
+    const v = mode === 'verify';
+    return (
+      <ScrollView style={s.screen} contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={s.header}>
+          <Text style={s.brand}>AAYUSH COMPUTERS</Text>
+          <Text style={s.tag}>Your Trusted Technology Partner</Text>
+          <Text style={s.title}>Check your email</Text>
+          <Text style={s.sub}>{v ? 'Confirm your email address to finish creating your account.' : 'Use the link we emailed you to choose a new password.'}</Text>
+        </View>
+        <View style={s.body}>
+          <Text style={s.para}>
+            {v ? 'We sent an email to ' : 'We sent a password reset email to '}<Text style={{ fontWeight: '700' }}>{target.email}</Text>.
+          </Text>
+          <Text style={s.para}>
+            {v ? 'Open it and tap the confirm link. Then come back here and sign in.'
+               : 'Open it and tap the link to choose a new password. Then come back here and sign in with it.'}
+          </Text>
+          <Text style={[s.para, { color: '#5b6678' }]}>Not in your inbox? Check the Spam and Promotions folders. It can take a minute to arrive.</Text>
+          {!!info && <Text style={s.info}>{info}</Text>}
+          {!!error && <Text style={s.error} accessibilityLiveRegion="polite">{error}</Text>}
+          <Pressable style={s.primary} onPress={() => { setLogin(target.email); go('signin'); }} accessibilityRole="button">
+            <Text style={s.primaryText}>{v ? 'I have confirmed, sign in' : 'Back to sign in'}</Text>
+          </Pressable>
+          <Pressable onPress={onResend} disabled={!!busy} style={s.center} accessibilityRole="button">
+            {busy === 'form' ? <ActivityIndicator /> : <Text style={s.link}>Resend email</Text>}
+          </Pressable>
+        </View>
+      </ScrollView>
+    );
+  }
 
   const t = TEXT[mode];
   const isEntry = mode === 'signin' || mode === 'signup';
@@ -257,5 +291,6 @@ const s = StyleSheet.create({
   g: { color: '#4285f4', fontWeight: '800' },
   note: { textAlign: 'center', color: '#5b6678', fontSize: 13, marginTop: 8 },
   info: { color: '#15803d', marginTop: 12 },
+  para: { fontSize: 16, color: '#0f172a', marginBottom: 12, lineHeight: 22 },
   error: { color: '#b91c1c', marginTop: 12 },
 });

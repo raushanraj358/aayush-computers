@@ -27,7 +27,7 @@ export function parseIdentifier(input: string): Identifier | null {
 export function codeSentMessage(id: Identifier): string {
   return id.kind === 'phone'
     ? `We sent a code by SMS to ${id.phone}.`
-    : `We sent a code to ${id.email}. Check your inbox and spam folder.`;
+    : `We sent an email to ${id.email}. Tap the link in it.`;
 }
 
 const ALREADY = 'An account with this mobile number or email already exists. Sign in instead.';
