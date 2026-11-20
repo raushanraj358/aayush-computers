@@ -185,7 +185,7 @@ return '<div class="hd" style="padding-bottom:26px"><div class="brand"><div clas
 +(e?'<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="'+(m=="signin")+'" class="'+(m=="signin"?"on":"")+'" data-a="mode" data-v="signin">Sign in</button><button type="button" role="tab" aria-selected="'+(m=="signup")+'" class="'+(m=="signup"?"on":"")+'" data-a="mode" data-v="signup">Create account</button></div>':'')
 +'<form data-a="'+m+'" novalidate>'
 +(m=="signup"?f("lnm","Full name","text","name",' value="'+esc(S.lf.name||"")+'"'):'')
-+(e||m=="forgot"?f("lid","Mobile number or email","text","username",' placeholder="98765 43210 or name@gmail.com" autocapitalize="none" spellcheck="false" value="'+esc(S.lf.id||"")+'"'):'')
++(e||m=="forgot"?f("lid","Mobile number or email","text","username",' autocapitalize="none" spellcheck="false" value="'+esc(S.lf.id||"")+'"'):'')
 +(m=="verify"||m=="reset"?f("lcode","Code","text","one-time-code",' inputmode="numeric" maxlength="10"'):'')
 +(m!="verify"&&m!="forgot"?f("lpw",np?"New password":"Password","password",np?"new-password":"current-password",np?' placeholder="At least '+MINPW+' characters"':''):'')
 +(np?f("lpw2","Confirm password","password","new-password"):'')
@@ -194,7 +194,7 @@ return '<div class="hd" style="padding-bottom:26px"><div class="brand"><div clas
 +'<p><button type="submit" class="b" style="width:100%">'+t[2]+'</button></p></form>'
 +(m=="verify"?'<button type="button" class="lnk c" data-a="resend">Resend code</button>':'')
 +(!e?'<button type="button" class="lnk c" data-a="mode" data-v="signin">Back to sign in</button>':'')
-+(e?'<p class="or">or</p><button type="button" class="b o" style="width:100%;margin-top:10px" data-a="google"><b style="color:#4285f4">G</b> '+(m=="signup"?"Sign up with Google":"Continue with Google")+'</button><p class="note">Use your Gmail account. New users get an account automatically.</p>':'')
++(e?'<p class="or">or</p><button type="button" class="b o" style="width:100%;margin-top:10px" data-a="google"><b style="color:#4285f4">G</b> '+(m=="signup"?"Sign up with Google":"Continue with Google")+'</button><p class="note">Use your Gmail account.</p>':'')
 +'</div>'}
 const val=(id,raw)=>{const el=document.getElementById(id);return el?(raw?el.value:el.value.trim()):""};
 function goMode(m,info){S.lf={id:val("lid")||S.lf.id||"",name:val("lnm")};S.mode=m;S.info=info||"";render()}

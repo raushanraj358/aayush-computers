@@ -146,7 +146,7 @@ export default function LoginScreen() {
 
           {(isEntry || mode === 'forgot') && (
             <Field label="Mobile number or email" value={login} onChangeText={setLogin}
-              placeholder="98765 43210 or name@gmail.com" keyboardType="email-address"
+              keyboardType="email-address"
               autoCapitalize="none" autoCorrect={false} autoComplete="username" textContentType="username" />
           )}
 
@@ -210,7 +210,7 @@ export default function LoginScreen() {
                   <Text style={s.googleText}><Text style={s.g}>G</Text>  {mode === 'signup' ? 'Sign up with Google' : 'Continue with Google'}</Text>
                 )}
               </Pressable>
-              <Text style={s.note}>Use your Gmail account. New users get an account automatically.</Text>
+              <Text style={s.note}>Use your Gmail account.</Text>
             </>
           )}
         </View>
