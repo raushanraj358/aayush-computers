@@ -30,7 +30,7 @@ Live website: https://raushanraj358.github.io/aayush-computers/
 **Customers**
 - Browse and search the shop by category.
 - Place an order, book a repair, or send an enquiry.
-- Track each request's status and history.
+- Track each request: tap it in Requests to see every step (for example Placed, Confirmed, Packed, Out for delivery, Delivered) with its date, like a shopping app's order tracking.
 - Get notifications when the shop updates a request: a banner slides in at the top when one arrives, the bell shows how many are unread, and tapping a notification opens that request.
 
 **Owner (Nitish)**

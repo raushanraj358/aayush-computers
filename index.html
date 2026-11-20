@@ -47,14 +47,6 @@ h2{font-size:1.2rem;margin:0 0 12px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:0 0 12px}
 .chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px;font:inherit;font-size:.92rem;cursor:pointer}
 .chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
-.steps{list-style:none;margin:12px 0 10px;padding:0 0 0 6px;border-left:2px solid var(--line)}
-.steps li{position:relative;padding:0 0 9px 18px;color:var(--mute);font-size:.93rem}
-.steps li::before{content:"";position:absolute;left:-8px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--line)}
-.steps li.done{color:var(--ink)}
-.steps li.done::before{background:var(--green);border-color:var(--green)}
-.steps li.now{font-weight:600}
-.steps li.now::before{box-shadow:0 0 0 4px rgba(22,163,74,.2)}
-.steps small{color:var(--mute);font-weight:400;margin-left:6px}
 label{display:block;font-weight:600;margin:14px 0 4px;font-size:.92rem}
 input.f,select,textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit}
 textarea{min-height:90px;resize:vertical}
@@ -66,7 +58,8 @@ textarea{min-height:90px;resize:vertical}
 .stats .card{margin:0;text-align:center;padding:12px 6px}
 .stats b{display:block;font-size:1.6rem}
 .pc{display:flex;gap:12px;align-items:center}.art{flex:none;width:96px;height:72px;border-radius:10px;background:var(--tile);display:grid;place-items:center}.art svg{width:92px;height:68px}.art img{width:100%;height:100%;object-fit:cover;border-radius:10px;display:block}.banner{background:var(--tile);border-radius:10px;padding:10px 12px;margin-bottom:12px}.bell{position:relative}.dot{position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font:700 .68rem system-ui,sans-serif;border-radius:99px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;font-style:normal;border:2px solid var(--navy)}.bell.ring svg{animation:ring .9s ease 2}@keyframes ring{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
-/* Notifications: list page and the pop-up banner */.ngrp{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px}.ngrp:first-of-type{margin-top:4px}.nlist{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}.nt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px;font:inherit;color:var(--ink);cursor:pointer}.nt:last-child{border-bottom:0}.nt.un{background:var(--tile)}.nt:active{background:var(--tile)}.nic{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--tile);color:var(--blue)}.nt.un .nic{background:var(--card)}.nic.order{color:#ea580c}.nic.service{color:var(--blue)}.nic.enquiry{color:#7c3aed}.nic.fin{color:var(--green)}.ntx{flex:1;min-width:0}.ntx b{display:block;font-size:.98rem}.ntx p{margin:2px 0 4px;color:var(--ink);opacity:.85;font-size:.92rem;overflow-wrap:anywhere}.ntx small{color:var(--mute);font-size:.8rem}.nnew{flex:none;width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:6px}.nhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.nhead .lnk{padding:4px 0}.nempty{text-align:center;padding:36px 16px}.nempty .nic{width:64px;height:64px;margin:0 auto 12px}.pop{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;width:min(456px,calc(100% - 24px));transform:translate(-50%,-140%);transition:transform .3s ease;z-index:8;display:flex;gap:12px;align-items:flex-start;background:var(--card);color:var(--ink);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:12px 10px 12px 12px;box-shadow:0 10px 30px rgba(15,23,42,.25);cursor:pointer}.pop.show{transform:translate(-50%,0)}.pop .x{flex:none;background:none;border:0;color:var(--mute);font-size:1.3rem;line-height:1;padding:2px 6px;cursor:pointer;border-radius:8px}.pop .x:active{background:var(--tile);color:var(--blue)}.card.hl{animation:hl 2.4s ease}@keyframes hl{0%,60%{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.25)}100%{border-color:var(--line);box-shadow:none}}@media (prefers-reduced-motion:reduce){.pop{transition:none}.bell.ring svg,.card.hl{animation:none}}.sms{margin-top:6px;font-size:.82rem;color:var(--green);font-weight:600}.or{text-align:center;color:var(--mute);margin:12px 0 0;font-size:.85rem}
+/* Notifications: list page and the pop-up banner */.ngrp{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px}.ngrp:first-of-type{margin-top:4px}.nlist{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}.nt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px;font:inherit;color:var(--ink);cursor:pointer}.nt:last-child{border-bottom:0}.nt.un{background:var(--tile)}.nt:active{background:var(--tile)}.nic{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--tile);color:var(--blue)}.nt.un .nic{background:var(--card)}.nic.order{color:#ea580c}.nic.service{color:var(--blue)}.nic.enquiry{color:#7c3aed}.nic.fin{color:var(--green)}.ntx{flex:1;min-width:0}.ntx b{display:block;font-size:.98rem}.ntx p{margin:2px 0 4px;color:var(--ink);opacity:.85;font-size:.92rem;overflow-wrap:anywhere}.ntx small{color:var(--mute);font-size:.8rem}.nnew{flex:none;width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:6px}.nhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.nhead .lnk{padding:4px 0}.nempty{text-align:center;padding:36px 16px}.nempty .nic{width:64px;height:64px;margin:0 auto 12px}.pop{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;width:min(456px,calc(100% - 24px));transform:translate(-50%,-140%);transition:transform .3s ease;z-index:8;display:flex;gap:12px;align-items:flex-start;background:var(--card);color:var(--ink);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:12px 10px 12px 12px;box-shadow:0 10px 30px rgba(15,23,42,.25);cursor:pointer}.pop.show{transform:translate(-50%,0)}.pop .x{flex:none;background:none;border:0;color:var(--mute);font-size:1.3rem;line-height:1;padding:2px 6px;cursor:pointer;border-radius:8px}.pop .x:active{background:var(--tile);color:var(--blue)}@media (prefers-reduced-motion:reduce){.pop{transition:none}.bell.ring svg{animation:none}}
+/* Requests: compact cards, and the order tracking page */.rq{cursor:pointer}.rq:active{border-color:var(--blue);background:var(--tile)}.rq .chev{flex:none;color:var(--mute);align-self:center}.rqt{font-weight:600;margin-top:6px}.rqs{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.93rem;flex-wrap:wrap}.sdot{width:9px;height:9px;border-radius:50%;background:var(--blue);flex:none}.rqs.fin .sdot{background:var(--green)}.rqs.fin b{color:var(--green)}.pbar{height:5px;background:var(--line);border-radius:9px;margin:10px 0 2px;overflow:hidden}.pbar i{display:block;height:100%;background:var(--green);border-radius:9px}.rq .b.sm{margin-top:12px}.lnk.back{display:inline-flex;align-items:center;gap:2px;padding:0 0 12px}.trh{font-weight:700;font-size:1.05rem;margin-bottom:2px}.trh.fin{color:var(--green)}.trk{list-style:none;margin:16px 0 4px;padding:0}.trk li{position:relative;padding:0 0 22px 36px;min-height:22px}.trk li:last-child{padding-bottom:0}.trk li::before{content:"";position:absolute;left:10px;top:22px;bottom:0;width:3px;background:var(--line)}.trk li:last-child::before{display:none}.trk li.done:not(.now)::before{background:var(--green)}.trk .d{position:absolute;left:2px;top:1px;width:19px;height:19px;border-radius:50%;border:3px solid var(--line);background:var(--card);box-sizing:border-box;display:grid;place-items:center;color:#fff}.trk li.done .d{background:var(--green);border-color:var(--green)}.trk li.now .d{box-shadow:0 0 0 5px rgba(22,163,74,.22)}.trk b{display:block}.trk li.todo b{color:var(--mute);font-weight:500}.trk small{color:var(--mute);font-size:.82rem}.trk p{margin:6px 0 0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.9rem}.sms{margin-top:6px;font-size:.82rem;color:var(--green);font-weight:600}.or{text-align:center;color:var(--mute);margin:12px 0 0;font-size:.85rem}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));z-index:4}
 .nav button{background:none;border:0;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:.72rem;cursor:pointer;padding:2px 14px}
 .nav button.on{color:var(--blue)}
@@ -106,28 +99,28 @@ function ago(t){const d=new Date(t),s=(Date.now()-d)/1000,day=x=>new Date(x).toD
 if(s<60)return"Just now";if(s<3600)return Math.floor(s/60)+" min ago";if(day(d)==day(Date.now()))return Math.floor(s/3600)+" hr ago";
 if(day(d)==day(Date.now()-864e5))return"Yesterday, "+hm;return when(t)}
 function group(t){const d=new Date(t).toDateString();return d==new Date().toDateString()?"Today":d==new Date(Date.now()-864e5).toDateString()?"Yesterday":"Earlier"}
-function noteRow(n,tag){const i=noteInfo(n),un=!n.read||S.newIds.has(n.id);
-return '<'+(tag||"button")+' type="button" class="nt'+(un?' un':'')+'" data-a="openn" data-id="'+n.id+'"><span class="nic '+(i.fin?"fin":i.k)+'">'+ic(i.icon,20)+'</span><span class="ntx"><b>'+esc(i.title)+'</b><p>'+esc(n.text)+'</p><small>'+ago(n.at)+'</small></span>'+(un?'<span class="nnew" aria-label="New"></span>':'')+'</'+(tag||"button")+'>'}
+// Notifications page shows one entry per request (its latest update), not one per status change.
+function noteGroups(list){const m=new Map(),out=[];list.forEach(n=>{const g=n.rid!=null&&m.get(n.rid);if(g)g.ns.push(n);else{const x={n,ns:[n]};if(n.rid!=null)m.set(n.rid,x);out.push(x)}});return out}
+function noteRow(g,tag){const n=g.n,i=noteInfo(n),un=g.ns.some(x=>!x.read||S.newIds.has(x.id)),more=g.ns.length-1;
+return '<'+(tag||"button")+' type="button" class="nt'+(un?' un':'')+'" data-a="openn" data-id="'+n.id+'"><span class="nic '+(i.fin?"fin":i.k)+'">'+ic(i.icon,20)+'</span><span class="ntx"><b>'+esc(i.title)+'</b><p>'+esc(n.text)+'</p><small>'+ago(n.at)+(more?' · '+(more+1)+' updates':'')+'</small></span>'+(un?'<span class="nnew" aria-label="New"></span>':'')+'</'+(tag||"button")+'>'}
 const NF=[["all","All"],["order","Orders"],["service","Repairs"],["enquiry","Enquiries"]];
-function notesView(){const all=S.notes.slice().reverse(),L=all.filter(n=>S.nf=="all"||noteInfo(n).k==S.nf),nw=all.filter(n=>S.newIds.has(n.id)).length;let g="",h="";
-L.forEach(n=>{const x=group(n.at);if(x!=g){if(g)h+='</div>';h+='<div class="ngrp">'+x+'</div><div class="nlist">';g=x}h+=noteRow(n)});if(g)h+='</div>';
+function notesView(){const all=S.notes.slice().reverse(),G=noteGroups(all),L=G.filter(x=>S.nf=="all"||noteInfo(x.n).k==S.nf),nw=G.filter(x=>x.ns.some(n=>S.newIds.has(n.id))).length;let g="",h="";
+L.forEach(x=>{const d=group(x.n.at);if(d!=g){if(g)h+='</div>';h+='<div class="ngrp">'+d+'</div><div class="nlist">';g=d}h+=noteRow(x)});if(g)h+='</div>';
 return bar("Notifications")+'<div class="body">'+(!S.loaded?WAIT:!all.length?'<div class="card nempty"><div class="nic">'+ic("bell",30)+'</div><b>No notifications yet</b><p class="mute">Updates on your orders, repairs and enquiries will show up here.</p></div>'
 :'<div class="nhead"><span class="mute">'+(nw?nw+' new':'You’re all caught up')+'</span></div><div class="chips">'+NF.map(f=>'<button type="button" class="chip'+(S.nf==f[0]?' on':'')+'" data-a="nfilter" data-v="'+f[0]+'">'+f[1]+'</button>').join("")+'</div>'
 +(L.length?h:'<div class="card"><p class="mute" style="margin:0">No notifications of this type.</p></div>'))+'</div>'}
 // Pop-up banner for notifications that arrive while the app is open (like a shopping app's in-app notification).
 let popT;function popUp(list){const n=list[list.length-1],el=document.getElementById("pop");if(!el)return;
-el.innerHTML=noteRow(n,"div").replace('class="nt','style="padding:0;border:0;background:none;flex:1;min-width:0" class="nt')+'<button type="button" class="x" data-a="popx" aria-label="Close">×</button>';
+el.innerHTML=noteRow({n,ns:[n]},"div").replace('class="nt','style="padding:0;border:0;background:none;flex:1;min-width:0" class="nt')+'<button type="button" class="x" data-a="popx" aria-label="Close">×</button>';
 if(list.length>1)el.querySelector("small").textContent+=" · and "+(list.length-1)+" more";
 el.dataset.a="openn";el.dataset.id=n.id;el.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("show")));
 try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}clearTimeout(popT);popT=setTimeout(popHide,6000)}
 function popHide(){const el=document.getElementById("pop");if(!el)return;el.classList.remove("show");clearTimeout(popT);popT=setTimeout(()=>{el.hidden=true},320)}
 // Opening a notification marks it read and jumps to its request.
 function openNote(id){const n=S.notes.find(x=>x.id==id);popHide();if(!n)return;
-const saved=n.read?Promise.resolve():(n.read=true,sb.from("notifications").update({read:true}).eq("id",n.id).then(()=>{},()=>{}));
-const r=S.reqs.find(x=>x.id==n.rid);S.newIds.clear();
-if(S.user.role=="owner"){S.view="orq";if(r)S.of=isDone(r)?"done":"open"}else S.view="reqs";
-S.hl=r?r.id:null;S.hlGo=true;clearTimeout(hlT);hlT=setTimeout(()=>{S.hl=null},2600);render();if(!r)window.scrollTo(0,0);saved.then(loadData)}
-let hlT;
+const grp=n.rid==null?[n]:S.notes.filter(x=>x.rid==n.rid),ids=grp.filter(x=>!x.read).map(x=>x.id);grp.forEach(x=>x.read=true);
+const saved=ids.length?sb.from("notifications").update({read:true}).in("id",ids).then(()=>{},()=>{}):Promise.resolve();
+S.newIds.clear();if(n.rid!=null&&S.reqs.some(x=>x.id==n.rid))openReq(n.rid);else{S.view=S.user.role=="owner"?"orq":"reqs";render();window.scrollTo(0,0)}saved.then(loadData)}
 function fromBanner(){const m={Laptops:"Second-hand laptops",CCTV:"CCTV cameras",Printers:"Printers"}[S.cat];if(!m)return"";const ps=S.products.filter(p=>p.on&&p.cat==S.cat);if(!ps.length)return"";return '<div class="banner">'+m+' starting from <b>'+rs(Math.min(...ps.map(p=>p.price)))+'</b></div>'}
 const I={
 home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',bag:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
@@ -137,7 +130,7 @@ search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',Laptops:'<rect x
 Printers:'<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',CCTV:'<path d="M3 8l12-4 3 7-12 4z"/><path d="M18 11l3 1M6 15v5h4"/>',
 Accessories:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
 Networking:'<rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 17h.01M11 17h.01M8 11a6 6 0 0 1 8 0M10 8a3 3 0 0 1 4 0"/>',
-Repair:'<path d="M15 5a4 4 0 0 0-4 5l-7 7 3 3 7-7a4 4 0 0 0 5-4l-3 2-2-2 2-3z"/>',bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'};
+Repair:'<path d="M15 5a4 4 0 0 0-4 5l-7 7 3 3 7-7a4 4 0 0 0 5-4l-3 2-2-2 2-3z"/>',bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',chev:'<path d="M9 6l6 6-6 6"/>',back:'<path d="M15 6l-6 6 6 6"/>',tick:'<path d="M5 12l5 5 9-10"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'};
 const ic=(n,s=24)=>n=="mon"?LOGO:'<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[n]+'</svg>';
 const CATS=["Laptops","Printers","CCTV","Accessories","Networking","Repair"];
 const FLOW={service:["Received","Diagnosed","In repair","Ready for pickup","Delivered"],order:["Placed","Confirmed","Packed","Out for delivery","Delivered"],enquiry:["New","Quote sent","Closed"]};
@@ -151,8 +144,8 @@ const DEV={computer:"Computer / Laptop",printer:"Printer",cctv:"CCTV camera",net
 const DEVKEY=Object.fromEntries(Object.entries(DEV).map(([k,v])=>[v,k]));
 const when=t=>new Date(t).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const showPh=p=>p&&/^\+91\d{10}$/.test(p)?fmtPh(p):(p||"");
-function mapReq(x){const f=FLOW[x.kind],hist=[],pr=x.profiles||{};(x.status_history||[]).forEach(h=>{const i=f.indexOf(h.status);if(i>=0)hist[i]=when(h.changed_at)});
-return{id:x.id,type:x.kind,title:x.title,detail:x.details||"",device:x.device?DEV[x.device]:"",uid:x.customer_id,phone:showPh(x.contact_phone||pr.phone),name:pr.full_name||pr.email||"Customer",s:Math.max(0,f.indexOf(x.status)),hist}}
+function mapReq(x){const f=FLOW[x.kind],hist=[],hnote=[],pr=x.profiles||{};(x.status_history||[]).forEach(h=>{const i=f.indexOf(h.status);if(i>=0){hist[i]=when(h.changed_at);if(h.note)hnote[i]=h.note}});
+return{id:x.id,type:x.kind,title:x.title,detail:x.details||"",device:x.device?DEV[x.device]:"",uid:x.customer_id,phone:showPh(x.contact_phone||pr.phone),name:pr.full_name||pr.email||"Customer",s:Math.max(0,f.indexOf(x.status)),hist,hnote}}
 const mapProd=x=>({id:x.id,name:x.name,price:x.price,cat:x.category,brand:x.brand,used:x.second_hand,on:x.active,img:x.image_url||"",dome:/dome/i.test(x.name)});
 const pic=p=>p.img?'<img src="'+esc(p.img)+'" alt="" loading="lazy">':art(p);
 function dbMsg(e){const m=(e&&e.message)||"";if(/row-level security/i.test(m))return"You don't have permission to do that.";
@@ -163,7 +156,7 @@ if(/failed to fetch/i.test(m))return"Couldn't connect. Check your internet and t
 async function loadData(){if(!S.user||!sb)return;const uid=S.user.id;
 const [p,r,n]=await Promise.all([
 sb.from("products").select("*").order("category").order("price"),
-sb.from("requests").select("*,status_history(status,changed_at),profiles(full_name,email,phone)").order("created_at"),
+sb.from("requests").select("*,status_history(status,changed_at,note),profiles(full_name,email,phone)").order("created_at"),
 sb.from("notifications").select("id,request_id,message,read,created_at").order("created_at",{ascending:false}).limit(100)]);
 if(!S.user||S.user.id!==uid)return;
 if(!p.error)S.products=p.data.map(mapProd);if(!r.error)S.reqs=r.data.map(mapReq);
@@ -203,9 +196,28 @@ return{row:{name:n,price:pr,category:val("pc"),brand:val("pb")||null,second_hand
 function orderView(){const p=S.products.find(x=>x.id==S.op);if(!p)return shop();
 return bar("Place order")+'<div class="body"><div class="card pc"><div class="art">'+pic(p)+'</div><div style="flex:1;min-width:0"><div style="font-weight:600">'+esc(p.name)+'</div><div style="font-weight:700;margin-top:4px">'+rs(p.price)+'</div></div></div><div class="card"><label for="mp" style="margin-top:0">Mobile number</label><input class="f" id="mp" inputmode="tel" autocomplete="tel" value="'+esc(S.user.phone||"")+'"><label for="de">Delivery address or note (optional)</label><textarea id="de" placeholder="Your address, or &quot;I will pick it up from the shop&quot;"></textarea><p class="mute">The shop will call you to confirm the price and delivery.</p><p><button class="b" style="width:100%" data-a="placeorder">Place order</button></p><button class="b o" style="width:100%" data-a="nav" data-v="shop">Cancel</button></div></div>'}
 let tt;function toast(m,re=true){if(re)render();const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},2500)}
-function timeline(r){return '<ul class="steps">'+FLOW[r.type].map((n,i)=>'<li class="'+(i<r.s?"done":i==r.s?"done now":"")+'">'+n+(r.hist[i]&&i<=r.s?'<small>'+r.hist[i]+'</small>':'')+'</li>').join("")+'</ul>'}
+// Requests list: one compact card per request. Tapping it opens the full tracking page.
 function reqCard(r,o){const f=FLOW[r.type],last=r.s>=f.length-1;
-return '<div class="card'+(S.hl==r.id?' hl':'')+'" id="rq'+r.id+'"><div class="row"><div><span class="tag">'+LABEL[r.type]+(r.device?" · "+r.device:"")+'</span><div style="font-weight:600;margin-top:6px">'+esc(r.title)+'</div><div class="mute">'+(o?esc(r.name)+' · '+esc(r.phone)+' · ':'')+'Ref #'+r.id+'</div></div><span class="tag '+(last?'done':'')+'">'+f[r.s]+'</span></div>'+(r.detail?'<div class="mute" style="margin-top:6px">'+esc(r.detail)+'</div>':'')+timeline(r)+(o&&!last?'<button class="b sm" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'}
+return '<div class="card rq" id="rq'+r.id+'" data-a="rd" data-id="'+r.id+'" role="button" tabindex="0" aria-label="'+esc(r.title)+', '+f[r.s]+'. Open tracking"><div class="row"><div style="min-width:0"><span class="tag">'+LABEL[r.type]+(r.device?" · "+r.device:"")+'</span><div class="rqt">'+esc(r.title)+'</div><div class="mute">'+(o?esc(r.name)+(r.phone?' · '+esc(r.phone):'')+' · ':'')+'Ref #'+r.id+'</div></div><span class="chev">'+ic("chev",22)+'</span></div>'
++'<div class="rqs'+(last?' fin':'')+'"><span class="sdot"></span><b>'+f[r.s]+'</b>'+(r.hist[r.s]?'<span class="mute">'+r.hist[r.s]+'</span>':'')+'</div><div class="pbar"><i style="width:'+Math.round(r.s/(f.length-1)*100)+'%"></i></div>'
++(o&&!last?'<button class="b sm" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'}
+// Tracking: every step of the request, with its date and the shop's note, like a shopping app's order tracker.
+function tracker(r){const f=FLOW[r.type];return '<ol class="trk">'+f.map((n,i)=>{const st=i<r.s?"done":i==r.s?"done now":"todo";
+return '<li class="'+st+'"><span class="d">'+(i<=r.s?ic("tick",11):'')+'</span><b>'+n+'</b>'+(i<=r.s&&r.hist[i]?'<small>'+r.hist[i]+'</small>':i>r.s?'<small>Pending</small>':'')+(r.hnote[i]&&i<=r.s?'<p>'+esc(r.hnote[i])+'</p>':'')+'</li>'}).join("")+'</ol>'}
+const DTITLE={service:"Repair details",order:"Order details",enquiry:"Enquiry details"};
+function reqDetail(){const r=S.reqs.find(x=>x.id==S.rd),o=S.user.role=="owner",back='<button type="button" class="lnk back" data-a="rback">'+ic("back",18)+' All requests</button>';
+if(!r)return bar("Request")+'<div class="body">'+back+(S.loaded?'<div class="card"><b>This request can’t be found.</b></div>':WAIT)+'</div>';
+const f=FLOW[r.type],last=r.s>=f.length-1;
+return bar(DTITLE[r.type])+'<div class="body">'+back
++'<div class="card"><span class="tag">'+LABEL[r.type]+(r.device?" · "+r.device:"")+'</span><div class="rqt" style="font-size:1.1rem">'+esc(r.title)+'</div><div class="mute">Ref #'+r.id+(r.hist[0]?' · '+(r.type=="order"?"Ordered":"Sent")+' '+r.hist[0]:'')+'</div>'
++(r.detail?'<p style="margin:10px 0 0">'+esc(r.detail)+'</p>':'')
++(o?'<p class="mute" style="margin:10px 0 0">Customer: <b style="color:var(--ink)">'+esc(r.name)+'</b>'+(r.phone?' · <a href="tel:'+esc(r.phone.replace(/\s/g,""))+'">'+esc(r.phone)+'</a>':'')+'</p>':'')+'</div>'
++'<div class="card"><div class="trh'+(last?' fin':'')+'">'+(last?f[r.s]+(r.hist[r.s]?' on '+r.hist[r.s]:''):'Current status: '+f[r.s])+'</div>'
++(last?'':'<div class="mute">Next: '+f[r.s+1]+'</div>')+tracker(r)
++(o&&!last?'<button class="b" style="width:100%;margin-top:16px" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'
++(o?'':'<div class="card"><b>Questions about this '+(r.type=="order"?"order":"request")+'?</b><p class="mute" style="margin:4px 0 0">Call '+OWNER+' at '+fmtPh(SHOP_PHONE)+' and mention Ref #'+r.id+'.</p></div>')+'</div>'}
+function openReq(id){S.rd=id;if(S.view!="rdet")S.from=S.view;S.view="rdet";render();window.scrollTo(0,0);try{history.pushState({rd:id},"")}catch(e){}}
+function closeReq(){S.view=S.from&&S.from!="rdet"?S.from:S.user.role=="owner"?"orq":"reqs";render()}
 function bar(title){return '<div class="hd slim"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>'+title+'</b><small>Aayush Computers</small></div><span class="sp"></span>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",30)+'</button></div></div>'}
 function nav(items){return '<nav class="nav">'+items.map(t=>'<button class="'+(S.view==t[0]?"on":"")+'" data-a="nav" data-v="'+t[0]+'">'+ic(t[2])+t[1]+'</button>').join("")+'</nav>'}
 const LT={signin:["Sign in","Track your orders and repairs, or send an enquiry.","Sign in"],signup:["Create account","Sign up with your mobile number or email.","Create account"],verify:["Verify your account","Enter the code we sent you.","Verify and continue"],forgot:["Forgot password","We will send a code to your mobile number or email.","Send code"],reset:["Set a new password","Enter the code we sent you and choose a new password.","Save password and sign in"],newpw:["Set a new password","Choose a new password for your account.","Save password"]};
@@ -300,7 +312,7 @@ return bar("Shop")+'<div class="body"><div class="chips">'+["All",...CATS.slice(
 function reqs(){const m=S.reqs.filter(r=>r.uid==S.user.id);return bar("My requests")+'<div class="body">'+(!S.loaded?WAIT:m.length?m.slice().reverse().map(r=>reqCard(r,false)).join(""):'<div class="card"><b>Nothing here yet.</b><p class="mute">Book a repair or send an enquiry to get started.</p></div>')+'<button class="b" style="width:100%" data-a="newreq" data-v="service">New request</button></div>'}
 function newreq(){return bar("New request")+'<div class="body"><div class="card"><label for="ty" style="margin-top:0">What do you need?</label><select id="ty"><option value="service" '+(S.ft=="service"?"selected":"")+'>Repair my device</option><option value="enquiry" '+(S.ft=="enquiry"?"selected":"")+'>Ask about a product</option></select><label for="dv">Type</label><select id="dv"><option>Computer / Laptop</option><option>Printer</option><option>CCTV camera</option><option>Networking</option><option>Other</option></select><label for="ti">Device or product</label><input class="f" id="ti" placeholder="e.g. HP laptop, or 4 CCTV cameras"><label for="mp">Mobile number</label><input class="f" id="mp" inputmode="tel" autocomplete="tel" value="'+esc(S.user.phone||"")+'"><label for="de">Describe the problem or requirement</label><textarea id="de"></textarea><p><button class="b" style="width:100%" data-a="submit">Send request</button></p></div></div>'}
 function profile(){const o=S.user.role=="owner";return bar("Profile")+'<div class="body"><div class="card"><b>'+esc(S.user.name||(o?OWNER:"Customer"))+'</b><div class="mute">'+(o?"Shop owner · ":"")+esc(S.user.phone||S.user.email)+'</div></div><button class="b o" style="width:100%" data-a="logout">Sign out</button></div>'}
-function customer(){const v=S.view,m={home,shop,reqs,newreq,profile,notes:notesView,order:orderView};return (m[v]||home)()+nav([["home","Home","home"],["shop","Shop","bag"],["reqs","Requests","clip"],["profile","Profile","user"]])}
+function customer(){const v=S.view,m={home,shop,reqs,newreq,profile,notes:notesView,order:orderView,rdet:reqDetail};return (m[v]||home)()+nav([["home","Home","home"],["shop","Shop","bag"],["reqs","Requests","clip"],["profile","Profile","user"]])}
 // Owner request filters: the three boxes at the top of Requests, plus Completed.
 const isDone=r=>r.s>=FLOW[r.type].length-1;
 const OF={open:{box:"Open",title:"Open requests",empty:"All caught up. No open requests.",test:r=>!isDone(r)},
@@ -309,7 +321,7 @@ new:{box:"New",title:"New, not started",empty:"Nothing new. Every request has be
 done:{title:"Completed",empty:"Nothing completed yet.",test:isDone}};
 function owner(){const R=S.reqs,open=R.filter(r=>r.s<FLOW[r.type].length-1);let b;if(S.view=="notes")return notesView()+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]]);
 if(S.view=="profile")return profile()+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]]);
-if(S.view=="prod")b=prodAdmin();else if(S.view=="pedit")b=prodEdit();
+if(S.view=="prod")b=prodAdmin();else if(S.view=="pedit")b=prodEdit();else if(S.view=="rdet")b=reqDetail();
 else{const f=OF[S.of]?S.of:"open",list=R.filter(OF[f].test),
 box=k=>'<button type="button" class="card stat'+(f==k?' on':'')+'" data-a="ofilter" data-v="'+k+'" aria-pressed="'+(f==k)+'"><b>'+(S.loaded?R.filter(OF[k].test).length:"–")+'</b><span class="mute">'+OF[k].box+'</span></button>';
 b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+OF[f].title+(S.loaded?' ('+list.length+')':'')+'</h2>'+(f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
@@ -318,13 +330,12 @@ return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Pr
 // Redrawing the same screen (background refresh, new notification) keeps whatever the user has typed.
 let lastKey="";
 const FOOT='<footer class="foot">© 2026 Aayush Computers. All Rights Reserved.</footer>';
-function render(){const y=window.scrollY;let h=S.boot?'<div class="hd"><div class="brand"><div class="logo">'+ic("mon")+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div></div><div class="body"><p class="mute" role="status">Loading…</p></div>':(!S.user||S.recovery)?login():S.user.role=="owner"?owner():customer();const app=document.getElementById("app"),key=[S.user&&S.user.id,S.boot,S.recovery,S.mode,S.view,S.ep,S.op].join("|"),same=key==lastKey&&!S.fresh,keep={},foc=document.activeElement&&document.activeElement.id;
+function render(){const y=window.scrollY;let h=S.boot?'<div class="hd"><div class="brand"><div class="logo">'+ic("mon")+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div></div><div class="body"><p class="mute" role="status">Loading…</p></div>':(!S.user||S.recovery)?login():S.user.role=="owner"?owner():customer();const app=document.getElementById("app"),key=[S.user&&S.user.id,S.boot,S.recovery,S.mode,S.view,S.ep,S.op,S.rd].join("|"),same=key==lastKey&&!S.fresh,keep={},foc=document.activeElement&&document.activeElement.id;
 if(same)app.querySelectorAll("input,select,textarea").forEach(el=>{if(el.id&&el.type!="file")keep[el.id]=el.type=="checkbox"?el.checked:el.value});
 lastKey=key;S.fresh=false;app.innerHTML=h+FOOT;
 for(const id in keep){const el=document.getElementById(id);if(el){if(el.type=="checkbox")el.checked=keep[id];else el.value=keep[id]}}
 if(same&&foc){const el=document.getElementById(foc);if(el&&el.focus)el.focus({preventScroll:true})}
 window.scrollTo(0,y);
-if(S.hlGo){S.hlGo=false;const c=document.getElementById("rq"+S.hl);if(c)c.scrollIntoView({block:"center"})}
 document.title=(unread()?"("+unread()+") ":"")+"Aayush Computers"}
 document.addEventListener("submit",e=>{e.preventDefault();if(!S.user||S.recovery)authAct(e.target.dataset.a)});
 document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.tagName=="FORM")return;const a=el.dataset.a,id=+el.dataset.id,v=el.dataset.v;
@@ -338,6 +349,8 @@ else if(a=="chip"){S.cat=v;render()}
 else if(a=="ofilter"){S.of=v;render()}
 else if(a=="nfilter"){S.nf=v;render()}
 else if(a=="openn"){openNote(id)}
+else if(a=="rd"){openReq(id)}
+else if(a=="rback"){if(history.state&&history.state.rd)history.back();else closeReq()}
 else if(a=="popx"){popHide()}
 else if(a=="clearq"){S.q="";render()}
 else if(a=="newreq"){S.ft=v;S.view="newreq";render()}
@@ -353,7 +366,8 @@ if(old&&(f.file||f.remove))removePhoto(old);setPhoto(null);S.view="prod";await l
 else if(a=="togp"){const p=S.products.find(x=>x.id==id);if(!p)return;run(async()=>{const {data,error}=await sb.from("products").update({active:!p.on}).eq("id",id).select("id");if(error)return toast(dbMsg(error),false);if(!data.length)return toast("Only the owner can change products",false);await loadData();toast(p.on?"De-listed: customers no longer see "+p.name:"Listed again: "+p.name)})}});
 document.addEventListener("change",e=>{if(e.target.id=="pf"&&e.target.files&&e.target.files[0]){setPhoto(e.target.files[0]);const b=document.getElementById("pfprev");b.hidden=false;b.innerHTML='<img alt="Selected photo" src="'+S.photoUrl+'">'}});
 document.addEventListener("touchstart",()=>{},{passive:true}); // lets iPhones show the pressed colour
-document.addEventListener("keydown",e=>{if(e.key=="Enter"&&e.target.id=="q"){S.q=e.target.value.trim();S.cat="All";S.view="shop";render()}});
+window.addEventListener("popstate",()=>{if(S.user&&S.view=="rdet")closeReq()});
+document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.matches&&e.target.matches(".rq")){e.preventDefault();e.target.click();return}if(e.key=="Enter"&&e.target.id=="q"){S.q=e.target.value.trim();S.cat="All";S.view="shop";render()}});
 if(sb){sb.auth.onAuthStateChange((ev,session)=>{
 if(ev=="PASSWORD_RECOVERY"){S.recovery=true;S.mode="newpw";S.info=""}
 if(ev=="TOKEN_REFRESHED")return;
