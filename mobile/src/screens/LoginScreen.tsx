@@ -210,7 +210,7 @@ export default function LoginScreen() {
                   <Text style={s.googleText}><Text style={s.g}>G</Text>  {mode === 'signup' ? 'Sign up with Google' : 'Continue with Google'}</Text>
                 )}
               </Pressable>
-              <Text style={s.note}>Use your Gmail account.</Text>
+              <Text style={s.note}>Use your Gmail account for signup/login.</Text>
             </>
           )}
         </View>
