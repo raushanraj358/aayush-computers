@@ -26,6 +26,7 @@ h1{font-size:1.6rem;margin:16px 0 2px;line-height:1.15}
 .search{display:flex;align-items:center;gap:10px;background:#fff;color:#64748b;border-radius:14px;padding:0 14px}
 .search input{flex:1;border:0;background:none;padding:14px 0;font:inherit;color:#0f172a;outline:0;min-width:0}
 .body{padding:18px}
+.foot{text-align:center;color:var(--mute);font-size:.8rem;padding:8px 18px 16px;margin:0}
 h2{font-size:1.2rem;margin:0 0 12px}
 .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .cat{background:var(--tile);border:0;border-radius:14px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;font-weight:500;color:var(--ink);cursor:pointer}
@@ -274,9 +275,10 @@ b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repai
 return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
 // Redrawing the same screen (background refresh, new alert) keeps whatever the user has typed.
 let lastKey="";
+const FOOT='<footer class="foot">© 2026 Aayush Computers. All Rights Reserved.</footer>';
 function render(){const y=window.scrollY;let h=S.boot?'<div class="hd"><div class="brand"><div class="logo">'+ic("mon")+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div></div><div class="body"><p class="mute" role="status">Loading…</p></div>':(!S.user||S.recovery)?login():S.user.role=="owner"?owner():customer();const app=document.getElementById("app"),key=[S.user&&S.user.id,S.boot,S.recovery,S.mode,S.view,S.ep,S.op].join("|"),same=key==lastKey&&!S.fresh,keep={},foc=document.activeElement&&document.activeElement.id;
 if(same)app.querySelectorAll("input,select,textarea").forEach(el=>{if(el.id&&el.type!="file")keep[el.id]=el.type=="checkbox"?el.checked:el.value});
-lastKey=key;S.fresh=false;app.innerHTML=h;
+lastKey=key;S.fresh=false;app.innerHTML=h+FOOT;
 for(const id in keep){const el=document.getElementById(id);if(el){if(el.type=="checkbox")el.checked=keep[id];else el.value=keep[id]}}
 if(same&&foc){const el=document.getElementById(foc);if(el&&el.focus)el.focus({preventScroll:true})}
 window.scrollTo(0,y)}
