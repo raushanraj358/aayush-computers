@@ -214,7 +214,7 @@ return bar(DTITLE[r.type])+'<div class="body">'+back
 +(o?'<p class="mute" style="margin:10px 0 0">Customer: <b style="color:var(--ink)">'+esc(r.name)+'</b>'+(r.phone?' · <a href="tel:'+esc(r.phone.replace(/\s/g,""))+'">'+esc(r.phone)+'</a>':'')+'</p>':'')+'</div>'
 +'<div class="card"><div class="trh'+(last?' fin':'')+'">'+(last?f[r.s]+(r.hist[r.s]?' on '+r.hist[r.s]:''):'Current status: '+f[r.s])+'</div>'
 +(last?'':'<div class="mute">Next: '+f[r.s+1]+'</div>')+tracker(r)
-+(o&&!last?'<button class="b" style="width:100%;margin-top:16px" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'
++(o&&!last?'<label for="onote" style="margin-top:18px">Note for the customer (optional)</label><p class="mute" style="margin:0 0 6px;font-size:.85rem">Sent with this update, for example the fault found, the repair cost or the delivery time.</p><textarea id="onote" maxlength="300" style="min-height:70px"></textarea><button class="b" style="width:100%;margin-top:12px" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'
 +(o?'':'<div class="card"><b>Questions about this '+(r.type=="order"?"order":"request")+'?</b><p class="mute" style="margin:4px 0 0">Call '+OWNER+' at '+fmtPh(SHOP_PHONE)+' and mention Ref #'+r.id+'.</p></div>')+'</div>'}
 function openReq(id){S.rd=id;if(S.view!="rdet")S.from=S.view;S.view="rdet";render();window.scrollTo(0,0);try{history.pushState({rd:id},"")}catch(e){}}
 function closeReq(){S.view=S.from&&S.from!="rdet"?S.from:S.user.role=="owner"?"orq":"reqs";render()}
@@ -357,7 +357,8 @@ else if(a=="newreq"){S.ft=v;S.view="newreq";render()}
 else if(a=="submit"){const t=val("ti");if(!t){toast("Enter the device or product",false);return}const ph=phoneOk();if(!ph)return;run(()=>add(val("ty"),t,val("de"),val("dv"),ph))}
 else if(a=="order"){S.op=id;S.view="order";render();window.scrollTo(0,0)}
 else if(a=="placeorder"){const p=S.products.find(x=>x.id==S.op);if(!p)return;const ph=phoneOk();if(!ph)return;const note=val("de");run(()=>add("order",p.name,rs(p.price)+(note?" · "+note:""),"",ph))}
-else if(a=="adv"){const r=S.reqs.find(x=>x.id==id);if(!r)return;const next=FLOW[r.type][r.s+1];run(async()=>{const {data,error}=await sb.from("requests").update({status:next,owner_note:null}).eq("id",id).select("id");if(error)return toast(dbMsg(error),false);if(!data.length)return toast("Only the owner can change the status",false);await loadData();toast("Status updated: "+next)})}
+else if(a=="adv"){const r=S.reqs.find(x=>x.id==id);if(!r)return;const next=FLOW[r.type][r.s+1];const ne=S.view=="rdet"&&document.getElementById("onote"),note=ne?ne.value.trim().slice(0,300):"";
+run(async()=>{const {data,error}=await sb.from("requests").update({status:next,owner_note:note||null}).eq("id",id).select("id");if(error)return toast(dbMsg(error),false);if(!data.length)return toast("Only the owner can change the status",false);S.fresh=true;await loadData();toast("Status updated: "+next+(note?". Note sent to the customer.":""))})}
 else if(a=="addp"){const f=readProd();if(!f)return;run(async()=>{if(f.file)f.row.image_url=await uploadPhoto(f.file);const {error}=await sb.from("products").insert(f.row);if(error){if(f.row.image_url)removePhoto(f.row.image_url);return toast(dbMsg(error),false)}setPhoto(null);S.fresh=true;await loadData();toast("Added and listed: "+f.row.name)})}
 else if(a=="editp"){setPhoto(null);S.ep=id;S.view="pedit";render();window.scrollTo(0,0)}
 else if(a=="savep"){const p=S.products.find(x=>x.id==S.ep),f=readProd();if(!p||!f)return;run(async()=>{const old=p.img;if(f.file)f.row.image_url=await uploadPhoto(f.file);else if(f.remove)f.row.image_url=null;

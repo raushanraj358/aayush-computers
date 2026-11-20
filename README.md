@@ -34,7 +34,7 @@ Live website: https://raushanraj358.github.io/aayush-computers/
 - Get notifications when the shop updates a request: a banner slides in at the top when one arrives, the bell shows how many are unread, and tapping a notification opens that request.
 
 **Owner (Nitish)**
-- **Requests:** see all requests and move each one to its next status. The Open, Repairs and New boxes filter the list, and a Completed link shows finished requests.
+- **Requests:** see all requests and move each one to its next status. On a request's tracking page he can add a note for the customer (for example the fault found or the repair cost). The note appears in the customer's notification and under that step in their tracker. The Open, Repairs and New boxes filter the list, and a Completed link shows finished requests.
 - **Products:** add products, edit name, price, category and brand, add or replace a photo, and list or de-list items.
 - **Notifications:** one for every new request, shown the same way.
 
