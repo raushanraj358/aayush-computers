@@ -110,7 +110,7 @@ const LABEL={service:"Repair request",order:"Order",enquiry:"Enquiry"};
 const now=()=>new Date().toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const rs=n=>"₹"+n.toLocaleString("en-IN");
-let S={user:null,boot:!!sb,recovery:false,mode:"signin",lf:{},pending:null,info:"",view:"home",cat:"All",q:"",ft:"service",notes:[],products:[],reqs:[],loaded:false,busy:false,op:null};
+let S={user:null,boot:!!sb,recovery:false,mode:"signin",lf:{},pending:null,info:"",view:"home",cat:"All",q:"",ft:"service",notes:[],products:[],reqs:[],loaded:false,busy:false,op:null,ep:null,photo:null,photoUrl:"",fresh:false};
 const WAIT='<div class="card"><p class="mute" role="status" style="margin:0">Loading…</p></div>';
 const DEV={computer:"Computer / Laptop",printer:"Printer",cctv:"CCTV camera",networking:"Networking",other:"Other"};
 const DEVKEY=Object.fromEntries(Object.entries(DEV).map(([k,v])=>[v,k]));
@@ -143,7 +143,7 @@ if(phone&&!S.user.phone){S.user.phone=showPh(phone);sb.from("profiles").update({
 S.view="reqs";await loadData();toast("Sent. Reference #"+data.id+".")}
 // Owner only: add products and list / de-list them. The database also blocks anyone else from changing products.
 function prodFields(p){p=p||{};return '<label for="pn">Name</label><input class="f" id="pn" value="'+esc(p.name||"")+'" placeholder="e.g. HP 15s, Core i5, 8 GB, 512 GB SSD"><div class="two"><div><label for="pp">Price (₹)</label><input class="f" id="pp" inputmode="numeric" value="'+(p.price||"")+'"></div><div><label for="pc">Category</label><select id="pc">'+CATS.slice(0,5).map(c=>'<option'+(c==p.cat?' selected':'')+'>'+c+'</option>').join("")+'</select></div></div><label for="pb">Brand (optional)</label><input class="f" id="pb" value="'+esc(p.brand||"")+'" placeholder="e.g. Dell, HP, Lenovo"><label class="chk"><input type="checkbox" id="pu"'+(p.used?' checked':'')+'> Second-hand</label>'
-+'<label for="pf">Photo (optional)</label><div class="art" id="pfprev" style="width:132px;height:99px;margin-bottom:8px"'+(p.id?'':' hidden')+'>'+(p.id?pic(p):'')+'</div><input type="file" id="pf" accept="image/*">'+(p.img?'<label class="chk"><input type="checkbox" id="prm"> Remove photo</label>':'')}
++'<label for="pf">Photo (optional)</label><div class="art" id="pfprev" style="width:132px;height:99px;margin-bottom:8px"'+(p.id||S.photo?'':' hidden')+'>'+(S.photo?'<img alt="Selected photo" src="'+S.photoUrl+'">':p.id?pic(p):'')+'</div><input type="file" id="pf" accept="image/*">'+(S.photo?'<p class="mute" style="margin:6px 0 0">New photo chosen. It is uploaded when you save.</p>':'')+(p.img?'<label class="chk"><input type="checkbox" id="prm"> Remove photo</label>':'')}
 // Owner only: add, edit, list and de-list products. The database also blocks anyone else from changing products.
 function prodAdmin(){const on=S.products.filter(p=>p.on),off=S.products.filter(p=>!p.on),
 item=p=>'<div class="card pc"><div class="art" style="width:72px;height:54px">'+pic(p)+'</div><div style="flex:1;min-width:0"><b>'+esc(p.name)+'</b><div class="mute">'+rs(p.price)+' · '+p.cat+(p.brand?' · '+esc(p.brand):'')+(p.used?' · Second-hand':'')+'</div><div style="display:flex;gap:8px;margin-top:8px"><button class="b o sm" data-a="editp" data-id="'+p.id+'">Edit</button><button class="b '+(p.on?'o ':'g ')+'sm" data-a="togp" data-id="'+p.id+'">'+(p.on?"De-list":"List")+'</button></div></div></div>';
@@ -154,6 +154,7 @@ function prodEdit(){const p=S.products.find(x=>x.id==S.ep);if(!p)return prodAdmi
 return bar("Edit product")+'<div class="body"><div class="card">'+prodFields(p)+'<p><button class="b" style="width:100%" data-a="savep">Save changes</button></p><button class="b o" style="width:100%" data-a="nav" data-v="prod">Cancel</button></div></div>'}
 // Photos: shrink on the phone (about 1200 px JPEG), upload to the public product-photos bucket.
 const BUCKET="product-photos";
+function setPhoto(f){if(S.photoUrl)URL.revokeObjectURL(S.photoUrl);S.photo=f||null;S.photoUrl=f?URL.createObjectURL(f):""}
 async function shrink(file){let img;try{img=await createImageBitmap(file)}catch(e){throw new Error("That file isn't a photo we can read. Use a JPG or PNG.")}
 const k=Math.min(1,1200/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
 c.getContext("2d").drawImage(img,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",0.85))}
@@ -161,8 +162,8 @@ async function uploadPhoto(file){const blob=await shrink(file),path=Date.now()+"
 const {error}=await sb.storage.from(BUCKET).upload(path,blob,{contentType:"image/jpeg"});if(error)throw error;return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
 function removePhoto(url){const path=(url||"").split("/"+BUCKET+"/")[1];if(path)sb.storage.from(BUCKET).remove([decodeURIComponent(path)]).then(()=>{},()=>{})}
 function readProd(){const n=val("pn"),pr=Math.round(+val("pp"));if(!n||!(pr>0)){toast("Enter a name and a price",false);return null}
-const pu=document.getElementById("pu"),pf=document.getElementById("pf"),rm=document.getElementById("prm");
-return{row:{name:n,price:pr,category:val("pc"),brand:val("pb")||null,second_hand:!!(pu&&pu.checked)},file:pf&&pf.files&&pf.files[0],remove:!!(rm&&rm.checked)}}
+const pu=document.getElementById("pu"),rm=document.getElementById("prm");
+return{row:{name:n,price:pr,category:val("pc"),brand:val("pb")||null,second_hand:!!(pu&&pu.checked)},file:S.photo,remove:!!(rm&&rm.checked)}}
 function orderView(){const p=S.products.find(x=>x.id==S.op);if(!p)return shop();
 return bar("Place order")+'<div class="body"><div class="card pc"><div class="art">'+pic(p)+'</div><div style="flex:1;min-width:0"><div style="font-weight:600">'+esc(p.name)+'</div><div style="font-weight:700;margin-top:4px">'+rs(p.price)+'</div></div></div><div class="card"><label for="mp" style="margin-top:0">Mobile number</label><input class="f" id="mp" inputmode="tel" autocomplete="tel" placeholder="98765 43210" value="'+esc(S.user.phone||"")+'"><label for="de">Delivery address or note (optional)</label><textarea id="de" placeholder="Your address, or &quot;I will pick it up from the shop&quot;"></textarea><p class="mute">The shop will call you to confirm the price and delivery.</p><p><button class="b" style="width:100%" data-a="placeorder">Place order</button></p><button class="b o" style="width:100%" data-a="nav" data-v="shop">Cancel</button></div></div>'}
 let tt;function toast(m,re=true){if(re)render();const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},2500)}
@@ -260,14 +261,21 @@ if(S.view=="profile")return profile()+nav([["orq","Requests","clip"],["prod","Pr
 if(S.view=="prod")b=prodAdmin();else if(S.view=="pedit")b=prodEdit();
 else{b=bar("Requests")+'<div class="body"><div class="stats"><div class="card"><b>'+open.length+'</b><span class="mute">Open</span></div><div class="card"><b>'+R.filter(r=>r.type=="service"&&r.s<4).length+'</b><span class="mute">Repairs</span></div><div class="card"><b>'+R.filter(r=>r.type!="service"&&r.s==0).length+'</b><span class="mute">New</span></div></div>'+(!S.loaded?WAIT:open.length?open.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>All caught up.</b><p class="mute">No open requests right now.</p></div>')+'</div>'}
 return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
-function render(){const y=window.scrollY;let h=S.boot?'<div class="hd"><div class="brand"><div class="logo">'+ic("mon")+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div></div><div class="body"><p class="mute" role="status">Loading…</p></div>':(!S.user||S.recovery)?login():S.user.role=="owner"?owner():customer();document.getElementById("app").innerHTML=h;window.scrollTo(0,y)}
+// Redrawing the same screen (background refresh, new alert) keeps whatever the user has typed.
+let lastKey="";
+function render(){const y=window.scrollY;let h=S.boot?'<div class="hd"><div class="brand"><div class="logo">'+ic("mon")+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div></div><div class="body"><p class="mute" role="status">Loading…</p></div>':(!S.user||S.recovery)?login():S.user.role=="owner"?owner():customer();const app=document.getElementById("app"),key=[S.user&&S.user.id,S.boot,S.recovery,S.mode,S.view,S.ep,S.op].join("|"),same=key==lastKey&&!S.fresh,keep={},foc=document.activeElement&&document.activeElement.id;
+if(same)app.querySelectorAll("input,select,textarea").forEach(el=>{if(el.id&&el.type!="file")keep[el.id]=el.type=="checkbox"?el.checked:el.value});
+lastKey=key;S.fresh=false;app.innerHTML=h;
+for(const id in keep){const el=document.getElementById(id);if(el){if(el.type=="checkbox")el.checked=keep[id];else el.value=keep[id]}}
+if(same&&foc){const el=document.getElementById(foc);if(el&&el.focus)el.focus({preventScroll:true})}
+window.scrollTo(0,y)}
 document.addEventListener("submit",e=>{e.preventDefault();if(!S.user||S.recovery)authAct(e.target.dataset.a)});
 document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.tagName=="FORM")return;const a=el.dataset.a,id=+el.dataset.id,v=el.dataset.v;
 if(!S.user||S.recovery){authAct(a,v);return}
 const run=async f=>{if(S.busy)return;S.busy=true;el.disabled=true;try{await f()}catch(err){toast(dbMsg(err),false)}finally{S.busy=false;if(el.isConnected)el.disabled=false}};
 const phoneOk=()=>{const p=parseId(val("mp"));if(!p||!p.phone){toast("Enter a valid 10-digit mobile number",false);return null}return p.phone};
 if(a=="logout"){S.user=null;S.mode="signin";render();if(sb)sb.auth.signOut()}
-else if(a=="nav"){S.view=v;if(v=="shop"){S.cat="All";S.q=""}if(v=="notes")markRead();render();if(v!="profile"&&v!="home")loadData()}
+else if(a=="nav"){if(v!=S.view)setPhoto(null);S.view=v;if(v=="shop"){S.cat="All";S.q=""}if(v=="notes")markRead();render();if(v!="profile"&&v!="home")loadData()}
 else if(a=="cat"){if(v=="Repair"){S.ft="service";S.view="newreq"}else{S.cat=v;S.q="";S.view="shop"}render()}
 else if(a=="chip"){S.cat=v;render()}
 else if(a=="clearq"){S.q="";render()}
@@ -276,13 +284,13 @@ else if(a=="submit"){const t=val("ti");if(!t){toast("Enter the device or product
 else if(a=="order"){S.op=id;S.view="order";render();window.scrollTo(0,0)}
 else if(a=="placeorder"){const p=S.products.find(x=>x.id==S.op);if(!p)return;const ph=phoneOk();if(!ph)return;const note=val("de");run(()=>add("order",p.name,rs(p.price)+(note?" · "+note:""),"",ph))}
 else if(a=="adv"){const r=S.reqs.find(x=>x.id==id);if(!r)return;const next=FLOW[r.type][r.s+1];run(async()=>{const {data,error}=await sb.from("requests").update({status:next,owner_note:null}).eq("id",id).select("id");if(error)return toast(dbMsg(error),false);if(!data.length)return toast("Only the owner can change the status",false);await loadData();toast("Status updated: "+next)})}
-else if(a=="addp"){const f=readProd();if(!f)return;run(async()=>{if(f.file)f.row.image_url=await uploadPhoto(f.file);const {error}=await sb.from("products").insert(f.row);if(error){if(f.row.image_url)removePhoto(f.row.image_url);return toast(dbMsg(error),false)}await loadData();toast("Added and listed: "+f.row.name)})}
-else if(a=="editp"){S.ep=id;S.view="pedit";render();window.scrollTo(0,0)}
+else if(a=="addp"){const f=readProd();if(!f)return;run(async()=>{if(f.file)f.row.image_url=await uploadPhoto(f.file);const {error}=await sb.from("products").insert(f.row);if(error){if(f.row.image_url)removePhoto(f.row.image_url);return toast(dbMsg(error),false)}setPhoto(null);S.fresh=true;await loadData();toast("Added and listed: "+f.row.name)})}
+else if(a=="editp"){setPhoto(null);S.ep=id;S.view="pedit";render();window.scrollTo(0,0)}
 else if(a=="savep"){const p=S.products.find(x=>x.id==S.ep),f=readProd();if(!p||!f)return;run(async()=>{const old=p.img;if(f.file)f.row.image_url=await uploadPhoto(f.file);else if(f.remove)f.row.image_url=null;
 const {data,error}=await sb.from("products").update(f.row).eq("id",p.id).select("id");if(error||!data.length){if(f.file)removePhoto(f.row.image_url);return toast(error?dbMsg(error):"Only the owner can change products",false)}
-if(old&&(f.file||f.remove))removePhoto(old);S.view="prod";await loadData();toast("Saved: "+f.row.name)})}
+if(old&&(f.file||f.remove))removePhoto(old);setPhoto(null);S.view="prod";await loadData();toast("Saved: "+f.row.name)})}
 else if(a=="togp"){const p=S.products.find(x=>x.id==id);if(!p)return;run(async()=>{const {data,error}=await sb.from("products").update({active:!p.on}).eq("id",id).select("id");if(error)return toast(dbMsg(error),false);if(!data.length)return toast("Only the owner can change products",false);await loadData();toast(p.on?"De-listed: customers no longer see "+p.name:"Listed again: "+p.name)})}});
-document.addEventListener("change",e=>{if(e.target.id=="pf"&&e.target.files&&e.target.files[0]){const b=document.getElementById("pfprev");b.hidden=false;b.innerHTML='<img alt="Selected photo" src="'+URL.createObjectURL(e.target.files[0])+'">'}});
+document.addEventListener("change",e=>{if(e.target.id=="pf"&&e.target.files&&e.target.files[0]){setPhoto(e.target.files[0]);const b=document.getElementById("pfprev");b.hidden=false;b.innerHTML='<img alt="Selected photo" src="'+S.photoUrl+'">'}});
 document.addEventListener("keydown",e=>{if(e.key=="Enter"&&e.target.id=="q"){S.q=e.target.value.trim();S.cat="All";S.view="shop";render()}});
 if(sb){sb.auth.onAuthStateChange((ev,session)=>{
 if(ev=="PASSWORD_RECOVERY"){S.recovery=true;S.mode="newpw";S.info=""}
