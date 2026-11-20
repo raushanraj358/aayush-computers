@@ -65,7 +65,8 @@ textarea{min-height:90px;resize:vertical}
 .stat{font:inherit;color:var(--ink);cursor:pointer;width:100%}.stat.on{border-color:var(--blue);background:var(--tile);box-shadow:inset 0 0 0 1px var(--blue)}.stat.on .mute{color:var(--blue);font-weight:600}
 .stats .card{margin:0;text-align:center;padding:12px 6px}
 .stats b{display:block;font-size:1.6rem}
-.pc{display:flex;gap:12px;align-items:center}.art{flex:none;width:96px;height:72px;border-radius:10px;background:var(--tile);display:grid;place-items:center}.art svg{width:92px;height:68px}.art img{width:100%;height:100%;object-fit:cover;border-radius:10px;display:block}.banner{background:var(--tile);border-radius:10px;padding:10px 12px;margin-bottom:12px}.bell{position:relative}.dot{position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font:700 .68rem system-ui,sans-serif;border-radius:99px;min-width:17px;height:17px;display:grid;place-items:center;font-style:normal}.sms{margin-top:6px;font-size:.82rem;color:var(--green);font-weight:600}.or{text-align:center;color:var(--mute);margin:12px 0 0;font-size:.85rem}
+.pc{display:flex;gap:12px;align-items:center}.art{flex:none;width:96px;height:72px;border-radius:10px;background:var(--tile);display:grid;place-items:center}.art svg{width:92px;height:68px}.art img{width:100%;height:100%;object-fit:cover;border-radius:10px;display:block}.banner{background:var(--tile);border-radius:10px;padding:10px 12px;margin-bottom:12px}.bell{position:relative}.dot{position:absolute;top:-2px;right:-2px;background:#ef4444;color:#fff;font:700 .68rem system-ui,sans-serif;border-radius:99px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;font-style:normal;border:2px solid var(--navy)}.bell.ring svg{animation:ring .9s ease 2}@keyframes ring{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+/* Notifications: list page and the pop-up banner */.ngrp{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px}.ngrp:first-of-type{margin-top:4px}.nlist{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}.nt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px;font:inherit;color:var(--ink);cursor:pointer}.nt:last-child{border-bottom:0}.nt.un{background:var(--tile)}.nt:active{background:var(--tile)}.nic{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--tile);color:var(--blue)}.nt.un .nic{background:var(--card)}.nic.order{color:#ea580c}.nic.service{color:var(--blue)}.nic.enquiry{color:#7c3aed}.nic.fin{color:var(--green)}.ntx{flex:1;min-width:0}.ntx b{display:block;font-size:.98rem}.ntx p{margin:2px 0 4px;color:var(--ink);opacity:.85;font-size:.92rem;overflow-wrap:anywhere}.ntx small{color:var(--mute);font-size:.8rem}.nnew{flex:none;width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:6px}.nhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.nhead .lnk{padding:4px 0}.nempty{text-align:center;padding:36px 16px}.nempty .nic{width:64px;height:64px;margin:0 auto 12px}.pop{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;width:min(456px,calc(100% - 24px));transform:translate(-50%,-140%);transition:transform .3s ease;z-index:8;display:flex;gap:12px;align-items:flex-start;background:var(--card);color:var(--ink);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;padding:12px 10px 12px 12px;box-shadow:0 10px 30px rgba(15,23,42,.25);cursor:pointer}.pop.show{transform:translate(-50%,0)}.pop .x{flex:none;background:none;border:0;color:var(--mute);font-size:1.3rem;line-height:1;padding:2px 6px;cursor:pointer;border-radius:8px}.pop .x:active{background:var(--tile);color:var(--blue)}.card.hl{animation:hl 2.4s ease}@keyframes hl{0%,60%{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.25)}100%{border-color:var(--line);box-shadow:none}}@media (prefers-reduced-motion:reduce){.pop{transition:none}.bell.ring svg,.card.hl{animation:none}}.sms{margin-top:6px;font-size:.82rem;color:var(--green);font-weight:600}.or{text-align:center;color:var(--mute);margin:12px 0 0;font-size:.85rem}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));z-index:4}
 .nav button{background:none;border:0;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;font-size:.72rem;cursor:pointer;padding:2px 14px}
 .nav button.on{color:var(--blue)}
@@ -80,6 +81,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 <body>
 <div id="app"></div>
 <div id="toast" class="toast" role="status" hidden></div>
+<div id="pop" class="pop" role="alert" aria-live="assertive" hidden></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
 <script>
 const SHOP_PHONE="+919006434998",OWNER="Nitish Kamlapuri";
@@ -94,8 +96,38 @@ if(p.cat=="CCTV")return o+(p.dome?'<path d="M20 42a28 28 0 0 1 56 0z" fill="#e2e
 if(p.cat=="Printers")return o+'<rect x="28" y="8" width="40" height="18" rx="2" fill="#fff" stroke="#94a3b8" stroke-width="2"/><rect x="12" y="24" width="72" height="28" rx="6" fill="#475569"/><rect x="28" y="42" width="40" height="22" rx="2" fill="#fff" stroke="#94a3b8" stroke-width="2"/><path d="M34 50h28M34 56h20" stroke="#94a3b8" stroke-width="2"/><circle cx="74" cy="31" r="2.5" fill="#22c55e"/></svg>';
 return o+'<rect x="22" y="18" width="52" height="38" rx="6" fill="#94a3b8"/></svg>'}
 const unread=()=>S.notes.filter(n=>!n.read).length;
-function bellBtn(){const u=unread();return '<button class="ib bell" data-a="nav" data-v="notes" aria-label="Alerts">'+ic("bell",28)+(u?'<i class="dot">'+u+'</i>':'')+'</button>'}
-function notesView(){const L=S.notes;return bar("Alerts")+'<div class="body">'+(!S.loaded?WAIT:L.length?L.slice().reverse().map(n=>'<div class="card"><div style="font-weight:600">'+esc(n.text)+'</div><div class="mute">'+n.time+'</div></div>').join(""):'<div class="card"><b>No alerts yet.</b><p class="mute">New requests and status updates appear here.</p></div>')+'</div>'}
+function bellBtn(){const u=unread(),ring=S.ring;S.ring=false;return '<button class="ib bell'+(ring?' ring':'')+'" data-a="nav" data-v="notes" aria-label="Notifications'+(u?', '+u+' new':'')+'">'+ic("bell",28)+(u?'<i class="dot">'+(u>9?"9+":u)+'</i>':'')+'</button>'}
+// What a notification is about, worked out from its request and message (the database stores plain text).
+function noteInfo(n){const r=S.reqs.find(x=>x.id==n.rid),m=n.text||"",km=m.match(/^New (service|order|enquiry)\b/),k=r?r.type:km?km[1]:"",st=(m.match(/ is now: ([^.]+)/)||[])[1],
+fin=!!(st&&k&&st==FLOW[k][FLOW[k].length-1]),lb=k?LABEL[k]:"Request";
+const title=km?"New "+lb.toLowerCase():st?lb+": "+st:/received/i.test(m)?lb+" received":"Update";
+return{k,title,fin,icon:k=="order"?"bag":k=="service"?"Repair":k=="enquiry"?"chat":"bell"}}
+function ago(t){const d=new Date(t),s=(Date.now()-d)/1000,day=x=>new Date(x).toDateString(),hm=d.toLocaleTimeString("en-IN",{hour:"numeric",minute:"2-digit"});
+if(s<60)return"Just now";if(s<3600)return Math.floor(s/60)+" min ago";if(day(d)==day(Date.now()))return Math.floor(s/3600)+" hr ago";
+if(day(d)==day(Date.now()-864e5))return"Yesterday, "+hm;return when(t)}
+function group(t){const d=new Date(t).toDateString();return d==new Date().toDateString()?"Today":d==new Date(Date.now()-864e5).toDateString()?"Yesterday":"Earlier"}
+function noteRow(n,tag){const i=noteInfo(n),un=!n.read||S.newIds.has(n.id);
+return '<'+(tag||"button")+' type="button" class="nt'+(un?' un':'')+'" data-a="openn" data-id="'+n.id+'"><span class="nic '+(i.fin?"fin":i.k)+'">'+ic(i.icon,20)+'</span><span class="ntx"><b>'+esc(i.title)+'</b><p>'+esc(n.text)+'</p><small>'+ago(n.at)+'</small></span>'+(un?'<span class="nnew" aria-label="New"></span>':'')+'</'+(tag||"button")+'>'}
+const NF=[["all","All"],["order","Orders"],["service","Repairs"],["enquiry","Enquiries"]];
+function notesView(){const all=S.notes.slice().reverse(),L=all.filter(n=>S.nf=="all"||noteInfo(n).k==S.nf),nw=all.filter(n=>S.newIds.has(n.id)).length;let g="",h="";
+L.forEach(n=>{const x=group(n.at);if(x!=g){if(g)h+='</div>';h+='<div class="ngrp">'+x+'</div><div class="nlist">';g=x}h+=noteRow(n)});if(g)h+='</div>';
+return bar("Notifications")+'<div class="body">'+(!S.loaded?WAIT:!all.length?'<div class="card nempty"><div class="nic">'+ic("bell",30)+'</div><b>No notifications yet</b><p class="mute">Updates on your orders, repairs and enquiries will show up here.</p></div>'
+:'<div class="nhead"><span class="mute">'+(nw?nw+' new':'You’re all caught up')+'</span></div><div class="chips">'+NF.map(f=>'<button type="button" class="chip'+(S.nf==f[0]?' on':'')+'" data-a="nfilter" data-v="'+f[0]+'">'+f[1]+'</button>').join("")+'</div>'
++(L.length?h:'<div class="card"><p class="mute" style="margin:0">No notifications of this type.</p></div>'))+'</div>'}
+// Pop-up banner for notifications that arrive while the app is open (like a shopping app's in-app notification).
+let popT;function popUp(list){const n=list[list.length-1],el=document.getElementById("pop");if(!el)return;
+el.innerHTML=noteRow(n,"div").replace('class="nt','style="padding:0;border:0;background:none;flex:1;min-width:0" class="nt')+'<button type="button" class="x" data-a="popx" aria-label="Close">×</button>';
+if(list.length>1)el.querySelector("small").textContent+=" · and "+(list.length-1)+" more";
+el.dataset.a="openn";el.dataset.id=n.id;el.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add("show")));
+try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}clearTimeout(popT);popT=setTimeout(popHide,6000)}
+function popHide(){const el=document.getElementById("pop");if(!el)return;el.classList.remove("show");clearTimeout(popT);popT=setTimeout(()=>{el.hidden=true},320)}
+// Opening a notification marks it read and jumps to its request.
+function openNote(id){const n=S.notes.find(x=>x.id==id);popHide();if(!n)return;
+const saved=n.read?Promise.resolve():(n.read=true,sb.from("notifications").update({read:true}).eq("id",n.id).then(()=>{},()=>{}));
+const r=S.reqs.find(x=>x.id==n.rid);S.newIds.clear();
+if(S.user.role=="owner"){S.view="orq";if(r)S.of=isDone(r)?"done":"open"}else S.view="reqs";
+S.hl=r?r.id:null;S.hlGo=true;clearTimeout(hlT);hlT=setTimeout(()=>{S.hl=null},2600);render();if(!r)window.scrollTo(0,0);saved.then(loadData)}
+let hlT;
 function fromBanner(){const m={Laptops:"Second-hand laptops",CCTV:"CCTV cameras",Printers:"Printers"}[S.cat];if(!m)return"";const ps=S.products.filter(p=>p.on&&p.cat==S.cat);if(!ps.length)return"";return '<div class="banner">'+m+' starting from <b>'+rs(Math.min(...ps.map(p=>p.price)))+'</b></div>'}
 const I={
 home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',bag:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
@@ -113,7 +145,7 @@ const LABEL={service:"Repair request",order:"Order",enquiry:"Enquiry"};
 const now=()=>new Date().toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const rs=n=>"₹"+n.toLocaleString("en-IN");
-let S={user:null,boot:!!sb,recovery:false,mode:"signin",lf:{},pending:null,info:"",view:"home",cat:"All",q:"",ft:"service",notes:[],products:[],reqs:[],loaded:false,busy:false,op:null,ep:null,photo:null,photoUrl:"",fresh:false};
+let S={newIds:new Set(),quiet:0,nf:"all",user:null,boot:!!sb,recovery:false,mode:"signin",lf:{},pending:null,info:"",view:"home",cat:"All",q:"",ft:"service",notes:[],products:[],reqs:[],loaded:false,busy:false,op:null,ep:null,photo:null,photoUrl:"",fresh:false};
 const WAIT='<div class="card"><p class="mute" role="status" style="margin:0">Loading…</p></div>';
 const DEV={computer:"Computer / Laptop",printer:"Printer",cctv:"CCTV camera",networking:"Networking",other:"Other"};
 const DEVKEY=Object.fromEntries(Object.entries(DEV).map(([k,v])=>[v,k]));
@@ -127,23 +159,24 @@ function dbMsg(e){const m=(e&&e.message)||"";if(/row-level security/i.test(m))re
 if(e&&e.code=="42501")return"The database isn't set up for the app yet. Run backend/supabase/002_app_access.sql in Supabase.";
 if(/bucket not found/i.test(m))return"Photo storage isn't set up yet. Run backend/supabase/003_product_photos.sql in Supabase.";
 if(/failed to fetch/i.test(m))return"Couldn't connect. Check your internet and try again.";return"Something went wrong: "+(m||"please try again")}
-// Products, requests (orders, repairs, enquiries) and alerts all come from Supabase. Row level security limits each user to their own rows.
+// Products, requests (orders, repairs, enquiries) and notifications all come from Supabase. Row level security limits each user to their own rows.
 async function loadData(){if(!S.user||!sb)return;const uid=S.user.id;
 const [p,r,n]=await Promise.all([
 sb.from("products").select("*").order("category").order("price"),
 sb.from("requests").select("*,status_history(status,changed_at),profiles(full_name,email,phone)").order("created_at"),
-sb.from("notifications").select("id,message,read,created_at").order("created_at",{ascending:false}).limit(100)]);
+sb.from("notifications").select("id,request_id,message,read,created_at").order("created_at",{ascending:false}).limit(100)]);
 if(!S.user||S.user.id!==uid)return;
 if(!p.error)S.products=p.data.map(mapProd);if(!r.error)S.reqs=r.data.map(mapReq);
-if(!n.error)S.notes=n.data.reverse().map(x=>({id:x.id,text:x.message,time:when(x.created_at),read:x.read}));
+if(!n.error){const before=S.notesIn?new Set(S.notes.map(x=>x.id)):null;S.notes=n.data.reverse().map(x=>({id:x.id,rid:x.request_id,text:x.message,at:x.created_at,time:when(x.created_at),read:x.read}));S.notesIn=true;
+if(before){const fresh=S.notes.filter(x=>!x.read&&!before.has(x.id));if(fresh.length){S.ring=true;if(S.view=="notes"){fresh.forEach(x=>S.newIds.add(x.id));markRead()}else if(Date.now()-S.quiet>8000)popUp(fresh)}}}
 S.loaded=true;const err=p.error||r.error||n.error;if(err)toast(dbMsg(err));else render()}
-function markRead(){const ids=S.notes.filter(n=>!n.read).map(n=>n.id);if(!ids.length)return;S.notes.forEach(n=>n.read=true);sb.from("notifications").update({read:true}).in("id",ids).then(()=>{})}
-let live;function listen(){if(live)sb.removeChannel(live);live=sb.channel("alerts").on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+S.user.id},()=>loadData()).subscribe()}
+function markRead(){const ids=S.notes.filter(n=>!n.read).map(n=>n.id);if(!ids.length)return Promise.resolve();S.notes.forEach(n=>n.read=true);return sb.from("notifications").update({read:true}).in("id",ids).then(()=>{},()=>{})}
+let live;function listen(){if(live)sb.removeChannel(live);live=sb.channel("notifications").on("postgres_changes",{event:"INSERT",schema:"public",table:"notifications",filter:"user_id=eq."+S.user.id},()=>loadData()).subscribe()}
 async function add(type,title,detail,device,phone){
 const row={kind:type,title,details:detail||null,contact_phone:phone||null};if(device)row.device=DEVKEY[device]||"other";
 const {data,error}=await sb.from("requests").insert(row).select("id").single();if(error)return toast(dbMsg(error),false);
 if(phone&&!S.user.phone){S.user.phone=showPh(phone);sb.from("profiles").update({phone}).eq("id",S.user.id).then(()=>{})}
-S.view="reqs";await loadData();toast("Sent. Reference #"+data.id+".")}
+S.quiet=Date.now();S.view="reqs";await loadData();toast("Sent. Reference #"+data.id+".")}
 // Owner only: add products and list / de-list them. The database also blocks anyone else from changing products.
 function prodFields(p){p=p||{};return '<label for="pn">Name</label><input class="f" id="pn" value="'+esc(p.name||"")+'" placeholder="e.g. HP 15s, Core i5, 8 GB, 512 GB SSD"><div class="two"><div><label for="pp">Price (₹)</label><input class="f" id="pp" inputmode="numeric" value="'+(p.price||"")+'"></div><div><label for="pc">Category</label><select id="pc">'+CATS.slice(0,5).map(c=>'<option'+(c==p.cat?' selected':'')+'>'+c+'</option>').join("")+'</select></div></div><label for="pb">Brand (optional)</label><input class="f" id="pb" value="'+esc(p.brand||"")+'" placeholder="e.g. Dell, HP, Lenovo"><label class="chk"><input type="checkbox" id="pu"'+(p.used?' checked':'')+'> Second-hand</label>'
 +'<label for="pf">Photo (optional)</label><div class="art" id="pfprev" style="width:132px;height:99px;margin-bottom:8px"'+(p.id||S.photo?'':' hidden')+'>'+(S.photo?'<img alt="Selected photo" src="'+S.photoUrl+'">':p.id?pic(p):'')+'</div><input type="file" id="pf" accept="image/*">'+(S.photo?'<p class="mute" style="margin:6px 0 0">New photo chosen. It is uploaded when you save.</p>':'')+(p.img?'<label class="chk"><input type="checkbox" id="prm"> Remove photo</label>':'')}
@@ -172,7 +205,7 @@ return bar("Place order")+'<div class="body"><div class="card pc"><div class="ar
 let tt;function toast(m,re=true){if(re)render();const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},2500)}
 function timeline(r){return '<ul class="steps">'+FLOW[r.type].map((n,i)=>'<li class="'+(i<r.s?"done":i==r.s?"done now":"")+'">'+n+(r.hist[i]&&i<=r.s?'<small>'+r.hist[i]+'</small>':'')+'</li>').join("")+'</ul>'}
 function reqCard(r,o){const f=FLOW[r.type],last=r.s>=f.length-1;
-return '<div class="card"><div class="row"><div><span class="tag">'+LABEL[r.type]+(r.device?" · "+r.device:"")+'</span><div style="font-weight:600;margin-top:6px">'+esc(r.title)+'</div><div class="mute">'+(o?esc(r.name)+' · '+esc(r.phone)+' · ':'')+'Ref #'+r.id+'</div></div><span class="tag '+(last?'done':'')+'">'+f[r.s]+'</span></div>'+(r.detail?'<div class="mute" style="margin-top:6px">'+esc(r.detail)+'</div>':'')+timeline(r)+(o&&!last?'<button class="b sm" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'}
+return '<div class="card'+(S.hl==r.id?' hl':'')+'" id="rq'+r.id+'"><div class="row"><div><span class="tag">'+LABEL[r.type]+(r.device?" · "+r.device:"")+'</span><div style="font-weight:600;margin-top:6px">'+esc(r.title)+'</div><div class="mute">'+(o?esc(r.name)+' · '+esc(r.phone)+' · ':'')+'Ref #'+r.id+'</div></div><span class="tag '+(last?'done':'')+'">'+f[r.s]+'</span></div>'+(r.detail?'<div class="mute" style="margin-top:6px">'+esc(r.detail)+'</div>':'')+timeline(r)+(o&&!last?'<button class="b sm" data-a="adv" data-id="'+r.id+'">Mark as: '+f[r.s+1]+'</button>':'')+'</div>'}
 function bar(title){return '<div class="hd slim"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>'+title+'</b><small>Aayush Computers</small></div><span class="sp"></span>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",30)+'</button></div></div>'}
 function nav(items){return '<nav class="nav">'+items.map(t=>'<button class="'+(S.view==t[0]?"on":"")+'" data-a="nav" data-v="'+t[0]+'">'+ic(t[2])+t[1]+'</button>').join("")+'</nav>'}
 const LT={signin:["Sign in","Track your orders and repairs, or send an enquiry.","Sign in"],signup:["Create account","Sign up with your mobile number or email.","Create account"],verify:["Verify your account","Enter the code we sent you.","Verify and continue"],forgot:["Forgot password","We will send a code to your mobile number or email.","Send code"],reset:["Set a new password","Enter the code we sent you and choose a new password.","Save password and sign in"],newpw:["Set a new password","Choose a new password for your account.","Save password"]};
@@ -227,7 +260,7 @@ let phone=u.phone?"+"+u.phone.replace(/^\+/,""):"";
 try{const {data}=await sb.from("profiles").select("role,full_name,phone").eq("id",u.id).maybeSingle();if(data){role=data.role||role;name=data.full_name||name;phone=data.phone||phone}}catch(e){}
 const same=S.user&&S.user.id==u.id;
 S.user={role,id:u.id,email:u.email||"",phone:showPh(phone),name};
-if(!same){S.view=role=="owner"?"orq":"home";S.pending=null;S.lf={};S.info="";S.loaded=false;S.reqs=[];S.notes=[];S.products=[];if(!S.recovery)S.mode="signin";listen()}
+if(!same){S.notesIn=false;S.notes=[];S.newIds.clear();S.view=role=="owner"?"orq":"home";S.pending=null;S.lf={};S.info="";S.loaded=false;S.reqs=[];S.notes=[];S.products=[];if(!S.recovery)S.mode="signin";listen()}
 S.boot=false;render();if(!same)loadData()}
 async function authAct(a,v){
 if(a=="mode"){if(S.recovery){S.recovery=false;if(sb)sb.auth.signOut()}goMode(v);return}
@@ -282,7 +315,7 @@ box=k=>'<button type="button" class="card stat'+(f==k?' on':'')+'" data-a="ofilt
 b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+OF[f].title+(S.loaded?' ('+list.length+')':'')+'</h2>'+(f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
 +(!S.loaded?WAIT:list.length?list.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>'+OF[f].empty+'</b></div>')+'</div>'}
 return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
-// Redrawing the same screen (background refresh, new alert) keeps whatever the user has typed.
+// Redrawing the same screen (background refresh, new notification) keeps whatever the user has typed.
 let lastKey="";
 const FOOT='<footer class="foot">© 2026 Aayush Computers. All Rights Reserved.</footer>';
 function render(){const y=window.scrollY;let h=S.boot?'<div class="hd"><div class="brand"><div class="logo">'+ic("mon")+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div></div></div><div class="body"><p class="mute" role="status">Loading…</p></div>':(!S.user||S.recovery)?login():S.user.role=="owner"?owner():customer();const app=document.getElementById("app"),key=[S.user&&S.user.id,S.boot,S.recovery,S.mode,S.view,S.ep,S.op].join("|"),same=key==lastKey&&!S.fresh,keep={},foc=document.activeElement&&document.activeElement.id;
@@ -290,17 +323,22 @@ if(same)app.querySelectorAll("input,select,textarea").forEach(el=>{if(el.id&&el.
 lastKey=key;S.fresh=false;app.innerHTML=h+FOOT;
 for(const id in keep){const el=document.getElementById(id);if(el){if(el.type=="checkbox")el.checked=keep[id];else el.value=keep[id]}}
 if(same&&foc){const el=document.getElementById(foc);if(el&&el.focus)el.focus({preventScroll:true})}
-window.scrollTo(0,y)}
+window.scrollTo(0,y);
+if(S.hlGo){S.hlGo=false;const c=document.getElementById("rq"+S.hl);if(c)c.scrollIntoView({block:"center"})}
+document.title=(unread()?"("+unread()+") ":"")+"Aayush Computers"}
 document.addEventListener("submit",e=>{e.preventDefault();if(!S.user||S.recovery)authAct(e.target.dataset.a)});
 document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.tagName=="FORM")return;const a=el.dataset.a,id=+el.dataset.id,v=el.dataset.v;
 if(!S.user||S.recovery){authAct(a,v);return}
 const run=async f=>{if(S.busy)return;S.busy=true;el.disabled=true;try{await f()}catch(err){toast(dbMsg(err),false)}finally{S.busy=false;if(el.isConnected)el.disabled=false}};
 const phoneOk=()=>{const p=parseId(val("mp"));if(!p||!p.phone){toast("Enter a valid 10-digit mobile number",false);return null}return p.phone};
 if(a=="logout"){S.user=null;S.mode="signin";render();if(sb)sb.auth.signOut()}
-else if(a=="nav"){if(v!=S.view)setPhoto(null);S.view=v;if(v=="shop"){S.cat="All";S.q=""}if(v=="notes")markRead();render();if(v!="profile"&&v!="home")loadData()}
+else if(a=="nav"){if(v!=S.view)setPhoto(null);S.view=v;if(v=="shop"){S.cat="All";S.q=""}if(v=="notes"){S.newIds=new Set(S.notes.filter(n=>!n.read).map(n=>n.id));S.nf="all";S.mr=markRead()}else S.newIds.clear();render();if(v=="notes")S.mr.then(loadData);else if(v!="profile"&&v!="home")loadData()}
 else if(a=="cat"){if(v=="Repair"){S.ft="service";S.view="newreq"}else{S.cat=v;S.q="";S.view="shop"}render()}
 else if(a=="chip"){S.cat=v;render()}
 else if(a=="ofilter"){S.of=v;render()}
+else if(a=="nfilter"){S.nf=v;render()}
+else if(a=="openn"){openNote(id)}
+else if(a=="popx"){popHide()}
 else if(a=="clearq"){S.q="";render()}
 else if(a=="newreq"){S.ft=v;S.view="newreq";render()}
 else if(a=="submit"){const t=val("ti");if(!t){toast("Enter the device or product",false);return}const ph=phoneOk();if(!ph)return;run(()=>add(val("ty"),t,val("de"),val("dv"),ph))}

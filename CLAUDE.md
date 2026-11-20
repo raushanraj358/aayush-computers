@@ -23,6 +23,12 @@ Guidance for Claude Code when working in this repository. See `README.md` for wh
   - Email accounts get a link, not a code, so verify/reset for an email shows a "Check your email" screen.
   - Phone accounts use SMS codes.
   - The `PASSWORD_RECOVERY` event switches to the `newpw` mode.
+- **Notifications:** call them "notifications" in the UI, never "alerts". The pieces:
+  - `notesView()` is the page: filter chips, plus Today / Yesterday / Earlier groups.
+  - `noteInfo()` works out a title, type and icon from the message text.
+  - `popUp()` shows the top banner when `loadData()` finds unread notifications it hasn't seen before. It doesn't show on first load or within 8 seconds of the user's own request (`S.quiet`).
+  - `openNote()` marks a notification read and jumps to its request card (`#rq<id>`).
+  - Wait for the "read" update to save before calling `loadData()`, or the badge comes back.
 - **Data:** `loadData()` loads products, requests (with status_history and profiles) and notifications. `mapReq` and `mapProd` convert database rows into the app's shape. `listen()` subscribes to new notifications in realtime. Database errors go through `dbMsg()`, which gives friendly text.
 - **Statuses:** `FLOW[type]` lists the steps for each request type, and `isDone(r)` is true at the last step. The owner's request filters live in `OF` (open, repair, new, done).
 - **Owner screens:** `owner()` with the views orq, prod, pedit, notes and profile. Product photos are shrunk to 1200px JPEG in the browser, then uploaded to the public `product-photos` bucket.

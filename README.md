@@ -31,12 +31,12 @@ Live website: https://raushanraj358.github.io/aayush-computers/
 - Browse and search the shop by category.
 - Place an order, book a repair, or send an enquiry.
 - Track each request's status and history.
-- Get in-app alerts when the shop updates a request.
+- Get notifications when the shop updates a request: a banner slides in at the top when one arrives, the bell shows how many are unread, and tapping a notification opens that request.
 
 **Owner (Nitish)**
 - **Requests:** see all requests and move each one to its next status. The Open, Repairs and New boxes filter the list, and a Completed link shows finished requests.
 - **Products:** add products, edit name, price, category and brand, add or replace a photo, and list or de-list items.
-- **Alerts:** an in-app alert for every new request.
+- **Notifications:** one for every new request, shown the same way.
 
 Every page shows "© 2026 Aayush Computers. All Rights Reserved." at the bottom.
 
