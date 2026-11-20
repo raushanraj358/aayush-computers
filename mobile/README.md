@@ -13,7 +13,7 @@ Create the app here later with:
 ## Login
 `src/screens/LoginScreen.tsx` offers sign in with mobile number or email + password, create account, forgot password, and "Continue with Google".
 
-- `src/lib/auth.ts`: mobile/email + password sign-in, sign-up with a confirmation code, password reset
+- `src/lib/auth.ts`: mobile/email + password sign-in, sign-up and password reset (SMS code for mobile numbers, an emailed link for email accounts)
 - `src/lib/googleAuth.ts`: Google sign-in (also signs up new users)
 - `src/lib/supabase.ts`, `src/hooks/useSession.ts`: session and role
 

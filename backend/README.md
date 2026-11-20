@@ -17,7 +17,7 @@ Managed database, login, file storage and automatic backups, so no server to mai
 
 ## Login setup
 
-The app offers three ways in: mobile number + password, email (Gmail) + password, and "Continue with Google". New users create an account with "Create account" (or Google, which signs up automatically). Codes are sent only to confirm a new account and to reset a forgotten password, not at every sign-in.
+The app offers three ways in: mobile number + password, email (Gmail) + password, and "Continue with Google". New users create an account with "Create account" (or Google, which signs up automatically). Email accounts are confirmed by a link in an email, and a forgotten password is reset the same way. Mobile number accounts get an SMS code instead. Neither is needed at every sign-in.
 
 In Supabase > Authentication:
 
@@ -25,10 +25,9 @@ In Supabase > Authentication:
 2. **Providers > Phone**: on, with "Enable phone confirmations" on. Pick an SMS provider and paste its keys. For India, register your sender ID and message templates (DLT) with that provider first.
 3. **Providers > Google**: see `../docs/GOOGLE_LOGIN_SETUP.md`.
 4. **Password**: set the minimum password length to 8 (the app also checks this).
-5. **Email templates**: the app asks the user to type a code, so add the code to two templates:
-   - "Confirm signup": `Your Aayush Computers code is {{ .Token }}`
-   - "Reset password": `Your Aayush Computers password reset code is {{ .Token }}`
-6. **SMTP settings**: add your own email sender (for example Brevo, Resend or Gmail SMTP). Supabase's built-in sender only delivers a few emails an hour, and only to your team's addresses, so customers would not get their codes.
+5. **Email templates**: keep the default "Confirm signup" and "Reset password" templates. They send a link, and the website shows a "Check your email" screen to match. You may reword them and add the shop name, but keep `{{ .ConfirmationURL }}` in both.
+6. **URL Configuration**: set Site URL to `https://raushanraj358.github.io/aayush-computers/` and add the same address under Redirect URLs, so the links in those emails open the website.
+7. **SMTP settings**: add your own email sender (for example Brevo, Resend or Gmail SMTP). Supabase's built-in sender only delivers a few emails an hour, and only to your team's addresses, so customers would not get their codes.
 
 ## What the database does by itself
 
