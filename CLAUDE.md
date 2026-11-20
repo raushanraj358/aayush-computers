@@ -32,7 +32,13 @@ Guidance for Claude Code when working in this repository. See `README.md` for wh
   - A button inside a clickable card (for example "Mark as" inside `.rq`) works because `closest("[data-a]")` finds the button first.
 - **Views:**
   - Customer, via `customer()`: home, shop, reqs, newreq, order, notes, profile, rdet.
-  - Owner, via `owner()`: orq (Requests), prod, pedit, notes, profile, rdet.
+  - Owner, via `owner()`: ohome (the default after login), orq (Requests), prod, pedit, notes, profile, rdet. `ONAV` is the owner's bottom menu.
+- **Owner home:** `ownerHome()` is the dashboard.
+  - Tiles use `data-a="ogo"`, which sets `S.of` and opens orq.
+  - "Needs your attention" shows `OF.new` requests through `reqCard`.
+  - Recent activity reuses `noteGroups` and `noteRow`.
+  - The search box `#oq` sets `S.oq`; on Enter, orq shows the matching requests and a "Clear search" link.
+  - `addprod` opens Products and focuses the name field.
 
 ### Login
 - `login()` and `LT` hold the screens; `authAct` and `authRun` run the actions. Modes: signin, signup, verify, forgot, reset, newpw.
@@ -89,7 +95,7 @@ Call them "notifications" in the UI, never "alerts".
   - notifications: `.nt`, `.nlist`, `.ngrp`;
   - banner: `.pop`.
 - **Headers:**
-  - Only the customer home page has the full brand header: logo, "AAYUSH COMPUTERS", tagline and search.
+  - Only the two home pages (customer `home()` and owner `ownerHome()`) have the full brand header: logo, "AAYUSH COMPUTERS", tagline and search.
   - Every other page uses `bar(title, back)`. It draws a slim sticky top bar (`.tb`) with an optional back arrow (`back` holds that button's `data-` attributes), then the small logo, the page title, and the bell and profile buttons.
   - Keep the logo on every page; the user wants it there.
   - Don't add the "Aayush Computers" text line to inner pages.

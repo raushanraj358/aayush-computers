@@ -56,6 +56,13 @@ Website (and, later, an Android app) for Aayush Computers, a computer sales and 
   - All updates for one request appear as a single entry.
 
 ### Owner (Nitish)
+- **Home:** a dashboard in the same style as the customer home. It has:
+  - a greeting with today's date, and a search box for requests (by customer name, item or Ref #);
+  - Overview tiles: New, Open, Repairs in progress and Completed. Tapping a tile opens that list;
+  - quick actions: Requests, Add product, Products and Notifications;
+  - "Needs your attention", showing new requests waiting for him;
+  - recent activity;
+  - a "Your shop" summary of how many products are listed.
 - **Requests:**
   - The Open, Repairs and New boxes filter the list, and the Completed link shows finished requests.
   - Each card has a quick "Mark as: next status" button.

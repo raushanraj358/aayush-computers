@@ -55,6 +55,13 @@ textarea{min-height:90px;resize:vertical}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--tile);border-radius:12px;padding:4px;margin:6px 0 14px}
 .seg button{border:0;background:none;padding:10px;border-radius:9px;font:inherit;font-weight:600;cursor:pointer;color:var(--mute)}
 .seg button.on{background:var(--blue);color:#fff}
+/* Owner home */.otiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.otile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font:inherit;color:var(--ink);cursor:pointer}.otile:active{border-color:var(--blue);background:var(--tile)}
+.otile b{font-size:1.7rem;line-height:1.1;margin-top:8px}.otile>span:last-child{color:var(--mute);font-size:.88rem}
+.oti{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--tile);color:var(--blue)}
+.otile.new .oti{background:rgba(234,88,12,.12);color:#ea580c}.otile.rep .oti{background:rgba(124,58,237,.12);color:#7c3aed}.otile.fin .oti{background:rgba(22,163,74,.12);color:var(--green)}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}.qa .cat{font-size:.8rem;padding:12px 2px;text-align:center;line-height:1.2}
+.sec{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}.sec h2{margin:0}.sec .lnk{padding:4px 0}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .stat{font:inherit;color:var(--ink);cursor:pointer;width:100%}.stat.on{border-color:var(--blue);background:var(--tile);box-shadow:inset 0 0 0 1px var(--blue)}.stat.on .mute{color:var(--blue);font-weight:600}
 .stats .card{margin:0;text-align:center;padding:12px 6px}
@@ -93,7 +100,7 @@ if(p.cat=="CCTV")return o+(p.dome?'<path d="M20 42a28 28 0 0 1 56 0z" fill="#e2e
 if(p.cat=="Printers")return o+'<rect x="28" y="8" width="40" height="18" rx="2" fill="#fff" stroke="#94a3b8" stroke-width="2"/><rect x="12" y="24" width="72" height="28" rx="6" fill="#475569"/><rect x="28" y="42" width="40" height="22" rx="2" fill="#fff" stroke="#94a3b8" stroke-width="2"/><path d="M34 50h28M34 56h20" stroke="#94a3b8" stroke-width="2"/><circle cx="74" cy="31" r="2.5" fill="#22c55e"/></svg>';
 return o+'<rect x="22" y="18" width="52" height="38" rx="6" fill="#94a3b8"/></svg>'}
 const unread=()=>S.notes.filter(n=>!n.read).length;
-function bellBtn(){const u=unread(),ring=S.ring;S.ring=false;return '<button class="ib bell'+(ring?' ring':'')+'" data-a="nav" data-v="notes" aria-label="Notifications'+(u?', '+u+' new':'')+'">'+ic("bell",S.view=="home"?28:24)+(u?'<i class="dot">'+(u>9?"9+":u)+'</i>':'')+'</button>'}
+function bellBtn(){const u=unread(),ring=S.ring;S.ring=false;return '<button class="ib bell'+(ring?' ring':'')+'" data-a="nav" data-v="notes" aria-label="Notifications'+(u?', '+u+' new':'')+'">'+ic("bell",S.view=="home"||S.view=="ohome"?28:24)+(u?'<i class="dot">'+(u>9?"9+":u)+'</i>':'')+'</button>'}
 // What a notification is about, worked out from its request and message (the database stores plain text).
 function noteInfo(n){const r=S.reqs.find(x=>x.id==n.rid),m=n.text||"",km=m.match(/^New (service|order|enquiry)\b/),k=r?r.type:km?km[1]:"",st=(m.match(/ is now: ([^.]+)/)||[])[1],
 fin=!!(st&&k&&st==FLOW[k][FLOW[k].length-1]),lb=k?LABEL[k]:"Request";
@@ -134,7 +141,7 @@ search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',Laptops:'<rect x
 Printers:'<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',CCTV:'<path d="M3 8l12-4 3 7-12 4z"/><path d="M18 11l3 1M6 15v5h4"/>',
 Accessories:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
 Networking:'<rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 17h.01M11 17h.01M8 11a6 6 0 0 1 8 0M10 8a3 3 0 0 1 4 0"/>',
-Repair:'<path d="M15 5a4 4 0 0 0-4 5l-7 7 3 3 7-7a4 4 0 0 0 5-4l-3 2-2-2 2-3z"/>',bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',chev:'<path d="M9 6l6 6-6 6"/>',back:'<path d="M15 6l-6 6 6 6"/>',tick:'<path d="M5 12l5 5 9-10"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'};
+Repair:'<path d="M15 5a4 4 0 0 0-4 5l-7 7 3 3 7-7a4 4 0 0 0 5-4l-3 2-2-2 2-3z"/>',bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',chev:'<path d="M9 6l6 6-6 6"/>',back:'<path d="M15 6l-6 6 6 6"/>',tick:'<path d="M5 12l5 5 9-10"/>',plus:'<path d="M12 5v14M5 12h14"/>',mon:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'};
 const ic=(n,s=24)=>n=="mon"?LOGO:'<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+I[n]+'</svg>';
 const CATS=["Laptops","Printers","CCTV","Accessories","Networking","Repair"];
 const FLOW={service:["Received","Diagnosed","In repair","Ready for pickup","Delivered"],order:["Placed","Confirmed","Packed","Out for delivery","Delivered"],enquiry:["New","Quote sent","Closed"]};
@@ -278,7 +285,7 @@ let phone=u.phone?"+"+u.phone.replace(/^\+/,""):"";
 try{const {data}=await sb.from("profiles").select("role,full_name,phone").eq("id",u.id).maybeSingle();if(data){role=data.role||role;name=data.full_name||name;phone=data.phone||phone}}catch(e){}
 const same=S.user&&S.user.id==u.id;
 S.user={role,id:u.id,email:u.email||"",phone:showPh(phone),name};
-if(!same){S.notesIn=false;S.notes=[];S.newIds.clear();S.view=role=="owner"?"orq":"home";S.pending=null;S.lf={};S.info="";S.loaded=false;S.reqs=[];S.notes=[];S.products=[];if(!S.recovery)S.mode="signin";listen()}
+if(!same){S.notesIn=false;S.notes=[];S.newIds.clear();S.view=role=="owner"?"ohome":"home";S.pending=null;S.lf={};S.info="";S.loaded=false;S.reqs=[];S.notes=[];S.products=[];if(!S.recovery)S.mode="signin";listen()}
 S.boot=false;render();if(!same)loadData()}
 async function authAct(a,v){
 if(a=="mode"){if(S.recovery){S.recovery=false;if(sb)sb.auth.signOut()}goMode(v);return}
@@ -325,14 +332,33 @@ const OF={open:{box:"Open",title:"Open requests",empty:"All caught up. No open r
 repair:{box:"Repairs",title:"Open repairs",empty:"No repairs in progress.",test:r=>r.type=="service"&&!isDone(r)},
 new:{box:"New",title:"New, not started",empty:"Nothing new. Every request has been picked up.",test:r=>r.s==0&&!isDone(r)},
 done:{title:"Completed",empty:"Nothing completed yet.",test:isDone}};
-function owner(){const R=S.reqs,open=R.filter(r=>r.s<FLOW[r.type].length-1);let b;if(S.view=="notes")return notesView()+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]]);
-if(S.view=="profile")return profile()+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]]);
+// Owner home: a dashboard of the shop today, in the same style as the customer home.
+const ONAV=[["ohome","Home","home"],["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]];
+const greet=()=>{const h=new Date().getHours();return h<12?"Good morning":h<17?"Good afternoon":"Good evening"};
+function ownerHome(){const R=S.reqs,cnt=k=>S.loaded?R.filter(OF[k].test).length:"–",first=esc((S.user.name||OWNER).split(" ")[0]),
+fresh=R.filter(OF.new.test).slice().reverse(),onP=S.products.filter(p=>p.on).length,offP=S.products.length-onP,recent=noteGroups(S.notes.slice().reverse()).slice(0,3),
+tile=(k,label,icon,cls)=>'<button type="button" class="otile '+cls+'" data-a="ogo" data-v="'+k+'"><span class="oti">'+ic(icon,20)+'</span><b>'+cnt(k)+'</b><span>'+label+'</span></button>',
+qa=(a,v,icon,label)=>'<button type="button" class="cat" data-a="'+a+'" data-v="'+v+'">'+ic(icon,26)+label+'</button>',
+sec=(t,a,v,l)=>'<div class="sec"><h2>'+t+'</h2>'+(a?'<button type="button" class="lnk" data-a="'+a+'" data-v="'+v+'">'+l+'</button>':'')+'</div>';
+return '<div class="hd"><div class="brand"><div class="logo">'+ic("mon",26)+'</div><div><b>AAYUSH COMPUTERS</b><small>Your Trusted Technology Partner</small></div><span class="sp"></span>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",32)+'</button></div>'
++'<h1>'+greet()+', '+first+'!</h1><p>'+new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long"})+' · Here’s your shop today.</p>'
++'<div class="search">'+ic("search",20)+'<input id="oq" enterkeyhint="search" placeholder="Search requests by name, item or Ref #" aria-label="Search requests"></div></div>'
++'<div class="body">'+sec("Overview")+'<div class="otiles">'+tile("new","New, not started","bell","new")+tile("open","Open requests","clip","")+tile("repair","Repairs in progress","Repair","rep")+tile("done","Completed","tick","fin")+'</div>'
++sec("Quick actions")+'<div class="qa">'+qa("ogo","open","clip","Requests")+qa("addprod","","plus","Add product")+qa("nav","prod","bag","Products")+qa("nav","notes","bell","Notifications")+'</div>'
++sec("Needs your attention",fresh.length>3?"ogo":"","new","View all ("+fresh.length+")")
++(!S.loaded?WAIT:fresh.length?fresh.slice(0,3).map(r=>reqCard(r,true)).join(""):'<div class="card nempty" style="padding:22px 16px"><div class="nic fin">'+ic("tick",26)+'</div><b>All caught up</b><p class="mute" style="margin:4px 0 0">No new requests waiting. New ones will show up here.</p></div>')
++(recent.length?'<div style="margin-top:22px">'+sec("Recent activity","nav","notes","See all")+'<div class="nlist">'+recent.map(g=>noteRow(g)).join("")+'</div></div>':'')
++'<div class="assist">'+sec("Your shop")+'<p style="margin:0 0 14px"><b style="color:var(--ink)">'+(S.loaded?onP:"–")+'</b> products listed'+(offP?' · '+offP+' de-listed':'')+'. Customers see the listed ones in the Shop.</p><div class="two"><button class="b o" data-a="nav" data-v="prod">'+ic("bag",20)+'Manage</button><button class="b" data-a="addprod">'+ic("plus",20)+'Add product</button></div></div></div>'}
+function owner(){if(S.view=="ohome")return ownerHome()+nav(ONAV);
+const R=S.reqs,open=R.filter(r=>r.s<FLOW[r.type].length-1);let b;if(S.view=="notes")return notesView()+nav(ONAV);
+if(S.view=="profile")return profile()+nav(ONAV);
 if(S.view=="prod")b=prodAdmin();else if(S.view=="pedit")b=prodEdit();else if(S.view=="rdet")b=reqDetail();
-else{const f=OF[S.of]?S.of:"open",list=R.filter(OF[f].test),
-box=k=>'<button type="button" class="card stat'+(f==k?' on':'')+'" data-a="ofilter" data-v="'+k+'" aria-pressed="'+(f==k)+'"><b>'+(S.loaded?R.filter(OF[k].test).length:"–")+'</b><span class="mute">'+OF[k].box+'</span></button>';
-b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+OF[f].title+(S.loaded?' ('+list.length+')':'')+'</h2>'+(f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
-+(!S.loaded?WAIT:list.length?list.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>'+OF[f].empty+'</b></div>')+'</div>'}
-return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
+else{const f=OF[S.of]?S.of:"open",oq=(S.oq||"").toLowerCase(),
+list=oq?R.filter(r=>("#"+r.id+" "+r.title+" "+r.name+" "+r.phone+" "+r.detail+" "+(r.device||"")).toLowerCase().includes(oq)||oq.replace(/^#/,"")==String(r.id)):R.filter(OF[f].test),
+box=k=>'<button type="button" class="card stat'+(f==k&&!oq?' on':'')+'" data-a="ofilter" data-v="'+k+'" aria-pressed="'+(f==k)+'"><b>'+(S.loaded?R.filter(OF[k].test).length:"–")+'</b><span class="mute">'+OF[k].box+'</span></button>';
+b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+(oq?'Results for “'+esc(S.oq)+'”':OF[f].title)+(S.loaded?' ('+list.length+')':'')+'</h2>'+(oq?'<button type="button" class="lnk" data-a="ofilter" data-v="open">Clear search</button>':f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
++(!S.loaded?WAIT:list.length?list.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>'+(oq?'No requests match your search.':OF[f].empty)+'</b></div>')+'</div>'}
+return b+nav(ONAV)}
 // Redrawing the same screen (background refresh, new notification) keeps whatever the user has typed.
 let lastKey="";
 const FOOT='<footer class="foot">© 2026 Aayush Computers. All Rights Reserved.</footer>';
@@ -352,7 +378,9 @@ if(a=="logout"){S.user=null;S.mode="signin";render();if(sb)sb.auth.signOut()}
 else if(a=="nav"){if(v!=S.view)setPhoto(null);S.view=v;if(v=="shop"){S.cat="All";S.q=""}if(v=="notes"){S.newIds=new Set(S.notes.filter(n=>!n.read).map(n=>n.id));S.nf="all";S.mr=markRead()}else S.newIds.clear();render();if(v=="notes")S.mr.then(loadData);else if(v!="profile"&&v!="home")loadData()}
 else if(a=="cat"){if(v=="Repair"){S.ft="service";S.view="newreq"}else{S.cat=v;S.q="";S.view="shop"}render()}
 else if(a=="chip"){S.cat=v;render()}
-else if(a=="ofilter"){S.of=v;render()}
+else if(a=="ofilter"){S.of=v;S.oq="";render()}
+else if(a=="ogo"){S.of=v;S.oq="";S.view="orq";render();window.scrollTo(0,0);loadData()}
+else if(a=="addprod"){setPhoto(null);S.view="prod";render();window.scrollTo(0,0);const n=document.getElementById("pn");if(n)n.focus()}
 else if(a=="nfilter"){S.nf=v;render()}
 else if(a=="openn"){openNote(id)}
 else if(a=="rd"){openReq(id)}
@@ -374,7 +402,8 @@ else if(a=="togp"){const p=S.products.find(x=>x.id==id);if(!p)return;run(async()
 document.addEventListener("change",e=>{if(e.target.id=="pf"&&e.target.files&&e.target.files[0]){setPhoto(e.target.files[0]);const b=document.getElementById("pfprev");b.hidden=false;b.innerHTML='<img alt="Selected photo" src="'+S.photoUrl+'">'}});
 document.addEventListener("touchstart",()=>{},{passive:true}); // lets iPhones show the pressed colour
 window.addEventListener("popstate",()=>{if(S.user&&S.view=="rdet")closeReq()});
-document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.matches&&e.target.matches(".rq")){e.preventDefault();e.target.click();return}if(e.key=="Enter"&&e.target.id=="q"){S.q=e.target.value.trim();S.cat="All";S.view="shop";render()}});
+document.addEventListener("keydown",e=>{if(e.key=="Enter"&&e.target.id=="oq"){S.oq=e.target.value.trim();S.of="open";S.view="orq";render();window.scrollTo(0,0);return}
+if((e.key=="Enter"||e.key==" ")&&e.target.matches&&e.target.matches(".rq")){e.preventDefault();e.target.click();return}if(e.key=="Enter"&&e.target.id=="q"){S.q=e.target.value.trim();S.cat="All";S.view="shop";render()}});
 if(sb){sb.auth.onAuthStateChange((ev,session)=>{
 if(ev=="PASSWORD_RECOVERY"){S.recovery=true;S.mode="newpw";S.info=""}
 if(ev=="TOKEN_REFRESHED")return;
