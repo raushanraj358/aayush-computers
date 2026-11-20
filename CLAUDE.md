@@ -69,6 +69,14 @@ Call them "notifications" in the UI, never "alerts".
 - **Opening one:** `openNote()` marks every notification of that request read, then calls `openReq()`.
 - **Read flag:** wait for the read update to save before calling `loadData()`, or the badge comes back. Opening the page saves through `S.mr`.
 
+### Auto-update
+`checkUpdate()` sends a `HEAD` request for the page with `cache:"no-store"` and compares its `Last-Modified` with `document.lastModified` (`BUILT`).
+- **When it runs:** 4 seconds after load, on focus or when the page becomes visible, and every 5 minutes.
+- **If the live copy is newer:** `doUpdate()` reloads at `HERE?v=<time>`, a new address that skips the saved copy. The time is stored in sessionStorage (`acUpd`) so it reloads at most once per version.
+- **If the user is busy** (typing, a photo chosen, or a save in progress): it shows the `#upd` "Update now" bar instead.
+- **Only on https.** It does nothing when the file is opened locally, so tests must remove that check.
+- **No version number to change:** every push changes `Last-Modified` by itself.
+
 ### Owner products
 `prodAdmin`, `prodEdit` and `prodFields` hold the screens. Photos are shrunk to 1200px JPEG in the browser (`shrink`), then uploaded to the public `product-photos` bucket.
 
@@ -108,5 +116,5 @@ This machine has no node, npm or brew.
 
 - Wording: say "Aayush Computers" (with "AAYUSH COMPUTERS" in the header). Use plain, friendly text. Never claim an SMS, email or notification was sent unless it really was.
 - Commit when the user asks, and keep `README.md` and this file up to date when features change. `git push` doesn't work from this session (no credentials), so the user pushes with `! git push origin main`.
-- After a push, browsers (especially on phones) can keep the old copy for 10 minutes or more. Tell the user to open the site with a new `?v=<n>` added to the address. The last one used was `?v=13`.
+- After a push, the site updates itself: open pages reload within about 5 minutes, or as soon as the page is reopened or brought back to the screen. To see a change at once, the user can still open the site with a new `?v=<n>` added to the address. The last one used was `?v=13`.
 - If the user says a change "isn't showing", first check the live site with `curl` (add a random query string). Usually it's the phone's saved copy, not the code.

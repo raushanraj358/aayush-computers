@@ -68,6 +68,7 @@ Website (and, later, an Android app) for Aayush Computers, a computer sales and 
 - Buttons turn blue while pressed.
 - Every page ends with "© 2026 Aayush Computers. All Rights Reserved."
 - The site follows the phone's light or dark mode.
+- The site reloads itself when a new version is published.
 
 ## Setting up from scratch
 
@@ -83,11 +84,10 @@ The publishable Supabase key in `index.html` is meant to be public; row level se
 
 Edit `index.html`, then commit and push to `main`. GitHub Pages republishes within a minute or two.
 
-Browsers can keep the old copy for up to 10 minutes, sometimes longer on phones. To see a change straight away, add `?v=` and any new number to the address, for example `.../aayush-computers/?v=14`.
+The site updates itself. When a page is opened or brought back to the screen, and every 5 minutes while it's open, it checks whether a newer version has been published. If one has, it reloads. If the user is in the middle of typing, it shows an "Update now" bar instead, so nothing they typed is lost. To force it straight away, add `?v=` and any new number to the address, for example `.../aayush-computers/?v=14`.
 
 ## Next steps
 
 - **Notifications outside the website:** choose web push (phone notifications even when the site is closed), a WhatsApp button, or email.
 - **Mobile number sign-up:** add an SMS provider in Supabase, registered for India (DLT).
 - **Android app:** create the Expo project (`mobile/README.md`), then build an APK with EAS.
-- **Optional:** make the site reload itself when a new version is published, so nobody sees an old copy.
