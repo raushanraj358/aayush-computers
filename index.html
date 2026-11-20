@@ -223,8 +223,8 @@ return bar(DTITLE[r.type],bk)+'<div class="body">'
 function openReq(id){S.rd=id;if(S.view!="rdet")S.from=S.view;S.view="rdet";render();window.scrollTo(0,0);try{history.pushState({rd:id},"")}catch(e){}}
 function closeReq(){S.view=S.from&&S.from!="rdet"?S.from:S.user.role=="owner"?"orq":"reqs";render()}
 // Top bar for inner pages: page title only (the full brand header is on the home page).
-// back: attributes for the back button, e.g. 'data-a="nav" data-v="shop"'. logo: show the small logo (owner's main page).
-function bar(title,back,logo){return '<header class="tb">'+(back?'<button type="button" class="ib tbk" '+back+' aria-label="Back">'+ic("back",24)+'</button>':'')+(logo?'<span class="tlogo">'+LOGO+'</span>':'')+'<h1 class="tbt">'+title+'</h1>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",26)+'</button></header>'}
+// Every page keeps the small logo. back: attributes for the back button, e.g. 'data-a="nav" data-v="shop"'.
+function bar(title,back){return '<header class="tb">'+(back?'<button type="button" class="ib tbk" '+back+' aria-label="Back">'+ic("back",24)+'</button>':'')+'<span class="tlogo">'+LOGO+'</span>'+'<h1 class="tbt">'+title+'</h1>'+bellBtn()+'<button class="ib" data-a="nav" data-v="profile" aria-label="Profile">'+ic("user",26)+'</button></header>'}
 function nav(items){return '<nav class="nav">'+items.map(t=>'<button class="'+(S.view==t[0]?"on":"")+'" data-a="nav" data-v="'+t[0]+'">'+ic(t[2])+t[1]+'</button>').join("")+'</nav>'}
 const LT={signin:["Sign in","Track your orders and repairs, or send an enquiry.","Sign in"],signup:["Create account","Sign up with your mobile number or email.","Create account"],verify:["Verify your account","Enter the code we sent you.","Verify and continue"],forgot:["Forgot password","We will send a code to your mobile number or email.","Send code"],reset:["Set a new password","Enter the code we sent you and choose a new password.","Save password and sign in"],newpw:["Set a new password","Choose a new password for your account.","Save password"]};
 const MINPW=8;
@@ -330,7 +330,7 @@ if(S.view=="profile")return profile()+nav([["orq","Requests","clip"],["prod","Pr
 if(S.view=="prod")b=prodAdmin();else if(S.view=="pedit")b=prodEdit();else if(S.view=="rdet")b=reqDetail();
 else{const f=OF[S.of]?S.of:"open",list=R.filter(OF[f].test),
 box=k=>'<button type="button" class="card stat'+(f==k?' on':'')+'" data-a="ofilter" data-v="'+k+'" aria-pressed="'+(f==k)+'"><b>'+(S.loaded?R.filter(OF[k].test).length:"–")+'</b><span class="mute">'+OF[k].box+'</span></button>';
-b=bar("Requests",0,1)+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+OF[f].title+(S.loaded?' ('+list.length+')':'')+'</h2>'+(f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
+b=bar("Requests")+'<div class="body"><div class="stats">'+box("open")+box("repair")+box("new")+'</div><div class="row" style="align-items:center;margin-bottom:10px"><h2 style="margin:0">'+OF[f].title+(S.loaded?' ('+list.length+')':'')+'</h2>'+(f=="open"?'<button type="button" class="lnk" data-a="ofilter" data-v="done">Completed ('+R.filter(OF.done.test).length+')</button>':'<button type="button" class="lnk" data-a="ofilter" data-v="open">Show all open</button>')+'</div>'
 +(!S.loaded?WAIT:list.length?list.slice().reverse().map(r=>reqCard(r,true)).join(""):'<div class="card"><b>'+OF[f].empty+'</b></div>')+'</div>'}
 return b+nav([["orq","Requests","clip"],["prod","Products","bag"],["profile","Profile","user"]])}
 // Redrawing the same screen (background refresh, new notification) keeps whatever the user has typed.
