@@ -5,7 +5,7 @@ Managed database, login, file storage and automatic backups, so no server to mai
 ## Setup (about 30 minutes)
 
 1. Create a free account at supabase.com using the shop's own email. Create a project (choose the region closest to India).
-2. Open SQL Editor, paste all of `supabase/schema.sql`, and click Run. Then do the same with `supabase/002_app_access.sql`, which lets signed-in users reach the tables. Without it the app can't load anything, and the owner shows up as a customer.
+2. Open SQL Editor, paste all of `supabase/schema.sql`, and click Run. Then do the same with `supabase/002_app_access.sql`, which lets signed-in users reach the tables. Without it the app can't load anything, and the owner shows up as a customer. Then run `supabase/003_product_photos.sql`, which creates the storage for product photos (anyone can view them, only the owner can upload).
 3. Set up login (next section).
 4. Sign in to the app once as Nitish, then make that account the owner by running this in SQL Editor (use his real email):
 
