@@ -88,6 +88,12 @@ Call them "notifications" in the UI, never "alerts".
   - tracker: `.trk`;
   - notifications: `.nt`, `.nlist`, `.ngrp`;
   - banner: `.pop`.
+- **Headers:**
+  - Only the customer home page has the full brand header: logo, "AAYUSH COMPUTERS", tagline and search.
+  - Every other page uses `bar(title, back, logo)`. It draws a slim sticky top bar (`.tb`) with the page title, an optional back arrow (`back` holds that button's `data-` attributes), and the bell and profile buttons.
+  - Only the owner's Requests page passes `logo`.
+  - Don't add "Aayush Computers" to inner pages.
+- **Hiding elements:** `[hidden]{display:none!important}` is there on purpose, so `el.hidden` works even on elements styled with `display:flex` or `display:grid`, such as `#upd` and `#pop`. Use `hidden` to show and hide things.
 - Keep the layout working at 480px wide and below.
 - Don't put sample phone numbers or emails in input placeholders; the user had them removed.
 
