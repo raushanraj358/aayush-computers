@@ -1,3 +1,5 @@
+> **Replaced.** The Android app is now `../android-app/`, a Capacitor app that shows the live website. This folder is earlier React Native code kept for reference only.
+
 # Android app (planned)
 
 React Native with Expo, built for Android and published on Google Play. Talks to Supabase (see `../backend`).

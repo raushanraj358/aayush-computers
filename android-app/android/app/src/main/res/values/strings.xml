@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Aayush Computers</string>
+    <string name="title_activity_main">Aayush Computers</string>
+    <string name="package_name">com.aayushcomputers.app</string>
+    <string name="custom_url_scheme">com.aayushcomputers.app</string>
+</resources>

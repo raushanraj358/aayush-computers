@@ -1,0 +1,19 @@
+{
+  "name": "aayush-computers-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Android app for Aayush Computers: a Capacitor shell that opens the live website.",
+  "scripts": {
+    "sync": "cap sync android",
+    "apk": "cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "7.0.1",
+    "@capacitor/app": "7.0.0",
+    "@capacitor/browser": "7.0.0",
+    "@capacitor/core": "7.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "7.0.1"
+  }
+}

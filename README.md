@@ -1,6 +1,6 @@
 # Aayush Computers
 
-Website (and, later, an Android app) for Aayush Computers, a computer sales and service shop. Customers browse products, place orders, book repairs, send enquiries and track every request step by step. The owner manages requests and products from the same website.
+Website and Android app for Aayush Computers, a computer sales and service shop. Customers browse products, place orders, book repairs, send enquiries and track every request step by step. The owner manages requests and products from the same website.
 
 - Owner: Nitish Kamlapuri, 90064 34998
 - Live website: https://raushanraj358.github.io/aayush-computers/
@@ -16,7 +16,7 @@ Website (and, later, an Android app) for Aayush Computers, a computer sales and 
 | Email sign-up and password reset (by emailed link) | Live |
 | Mobile number sign-up and reset (by SMS code) | Built, but needs an SMS provider in Supabase |
 | Notifications outside the website (push, WhatsApp or email) | Not started, no option chosen yet |
-| Android app (`mobile/`) | Login screen and auth code only; no Expo project or APK yet |
+| Android app (`android-app/`) | APK built: a Capacitor app that opens the live website, so it always matches it |
 
 ## Folders
 
@@ -28,7 +28,8 @@ Website (and, later, an Android app) for Aayush Computers, a computer sales and 
 | `googledc2282506e76168c.html` | Google site verification file. Do not edit or delete |
 | `web/` | Old address, forwards to the website |
 | `backend/` | Supabase database, security rules and photo storage (`backend/supabase/*.sql`) and setup guide |
-| `mobile/` | Android app (React Native with Expo), in progress |
+| `android-app/` | Android app (Capacitor shell around the live website), its build script and setup (`android-app/README.md`) |
+| `mobile/` | Earlier React Native (Expo) login code, kept for reference; replaced by `android-app/` |
 | `docs/` | Project notes and the Google login setup guide |
 | `CLAUDE.md` | Notes for Claude Code (AI assistant) on how the code is organised and how to work on it |
 
@@ -98,4 +99,4 @@ The site updates itself. When a page is opened or brought back to the screen, an
 
 - **Notifications outside the website:** choose web push (phone notifications even when the site is closed), a WhatsApp button, or email.
 - **Mobile number sign-up:** add an SMS provider in Supabase, registered for India (DLT).
-- **Android app:** create the Expo project (`mobile/README.md`), then build an APK with EAS.
+- **Android app on Google Play:** create a release signing key and a Play Console account (the current APK is debug-signed, for installing directly).

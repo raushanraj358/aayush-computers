@@ -8,8 +8,15 @@ node_modules/
 .expo/
 dist/
 web-build/
-android/
-ios/
+mobile/android/
+mobile/ios/
+# Android app (android-app/android is committed; its build output is not)
+android-app/android/app/build/
+android-app/android/build/
+android-app/android/.gradle/
+android-app/android/local.properties
+*.apk
+*.aab
 *.keystore
 *.jks
 

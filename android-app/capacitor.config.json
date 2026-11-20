@@ -1,0 +1,12 @@
+{
+  "appId": "com.aayushcomputers.app",
+  "appName": "Aayush Computers",
+  "webDir": "www",
+  "server": {
+    "url": "https://raushanraj358.github.io/aayush-computers/",
+    "errorPath": "offline.html"
+  },
+  "android": {
+    "backgroundColor": "#143560"
+  }
+}

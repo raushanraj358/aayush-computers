@@ -12,9 +12,14 @@ Guidance for Claude Code when working in this repository. See `README.md` for wh
   - Any new database change goes in a new numbered file (`004_...sql`).
   - Make it safe to run twice (`if not exists`, `drop policy if exists`, `on conflict`).
   - Then tell the user to run it.
-- **Mobile app:** `mobile/` is a partial React Native (Expo) app: `src/lib/auth.ts`, `googleAuth.ts`, `supabase.ts`, `hooks/useSession.ts` and `screens/LoginScreen.tsx`.
+- **Android app:** `android-app/` is a Capacitor 7 shell that loads the live website (`server.url` in `capacitor.config.json`).
+  - The app is therefore the website: change `index.html`, not the app, and the app updates by itself.
+  - App-only behaviour in `index.html` sits behind `NATIVE` (`window.Capacitor`): Google sign-in through Chrome with return to `com.aayushcomputers.app://login` (handled in `appUrlOpen`), the phone's Back button, and refreshing on resume. Keep it working in a normal browser.
+  - Build with `android-app/build-apk.sh`. It uses Node 22, Java 21 and the Android SDK in `~/devtools`, and writes `~/Desktop/AayushComputers.apk` (debug-signed).
+  - Rebuild only when the shell changes (manifest, icons, colours, config).
+- **Old mobile code:** `mobile/` is an earlier, partial React Native (Expo) app: `src/lib/auth.ts`, `googleAuth.ts`, `supabase.ts`, `hooks/useSession.ts` and `screens/LoginScreen.tsx`.
   - It has no package.json or app.json yet, so it can't be built or type-checked here.
-  - When login behaviour changes on the website, make the same change in `LoginScreen.tsx` and `auth.ts`.
+  - It has been replaced by `android-app/` and is kept for reference only. Don't update it.
 
 ## How index.html is organised
 
@@ -114,7 +119,7 @@ Call them "notifications" in the UI, never "alerts".
 
 ## Testing (no Node here)
 
-This machine has no node, npm or brew.
+There is no system-wide node, npm or brew. Node 22, Java 21 and the Android SDK live in `~/devtools` for building the Android app; add them to `PATH` as `build-apk.sh` does. An Android 15 emulator (`ac35`) is installed in `~/devtools/android-sdk` for testing the app.
 - **Syntax check:** copy the last `<script>` of `index.html` into a file wrapped in `function f(){...}`, then run it with `/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc`.
 - **Behaviour:** copy `index.html` into the scratchpad and replace the supabase-js `<script>` tag with a stand-in `window.supabase`. The stand-in needs:
   - `auth.onAuthStateChange` that signs in a test user;

@@ -93,6 +93,9 @@ const SHOP_PHONE="+919006434998",OWNER="Nitish Kamlapuri";
 const SB_URL="https://iaqmfkmzznvoonjggmqi.supabase.co",SB_KEY="sb_publishable_PAyXnwocmU0RF_kz1tOR7Q_H9cKowRn";
 const sb=window.supabase?window.supabase.createClient(SB_URL,SB_KEY):null;
 const HERE=location.origin+location.pathname;
+// Android app (Capacitor shell that loads this site). NATIVE is false in a normal browser, so none of the app code runs there.
+const CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform()),APP_CB="com.aayushcomputers.app://login";
+const plug=n=>NATIVE&&CAP.Plugins&&CAP.Plugins[n];
 const LOGO='<img src="logo.png" width="65" height="30" alt="Aayush Computers logo">';
 function art(p){const c={Dell:"#1f3b57",HP:"#3b6fb6",Acer:"#2f7d4f",Lenovo:"#b3262d"}[p.brand]||"#475569",o='<svg viewBox="0 0 96 72" aria-hidden="true">';
 if(p.cat=="Laptops")return o+'<rect x="17" y="8" width="62" height="40" rx="4" fill="'+c+'"/><rect x="21" y="12" width="54" height="32" rx="2" fill="#cfe2ff"/><text x="48" y="32" text-anchor="middle" font-size="11" font-weight="700" fill="'+c+'" font-family="system-ui,sans-serif">'+(p.brand||"")+'</text><path d="M8 52h80l-6 8H14z" fill="#94a3b8"/><rect x="38" y="54" width="20" height="2" rx="1" fill="#64748b"/></svg>';
@@ -298,6 +301,8 @@ async function authRun(a){
 const badId=()=>toast("Enter a 10-digit mobile number or a valid email",false),need=r=>{if(r.error)throw r.error;return r.data};
 if(a=="google"){const st=await fetch(SB_URL+"/auth/v1/settings",{headers:{apikey:SB_KEY}}).then(r=>r.json()).catch(()=>null);
 if(st&&st.external&&!st.external.google)return toast("Google sign-in isn't switched on yet. Use your email for now.",false);
+if(NATIVE&&plug("Browser")){ // Google blocks sign-in inside app windows: sign in in Chrome, then come back to the app
+const d=need(await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:APP_CB,skipBrowserRedirect:true}}));await plug("Browser").open({url:d.url});return}
 need(await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:HERE}}));return}
 if(a=="resend"){const p=S.pending;if(!p)return;if(p.email&&S.mode=="reset"){need(await sb.auth.resetPasswordForEmail(p.email,{redirectTo:HERE}));return toast("New email sent",false)}need(await sb.auth.resend(p.phone?{type:"sms",phone:p.phone}:{type:"signup",email:p.email,options:{emailRedirectTo:HERE}}));return toast(p.phone?"New code sent":"New email sent",false)}
 if(a=="signin"){const p=parseId(val("lid")),pw=val("lpw",1);if(!p)return badId();if(!pw)return toast("Enter your password",false);
@@ -414,6 +419,21 @@ if(ev=="PASSWORD_RECOVERY"){S.recovery=true;S.mode="newpw";S.info=""}
 if(ev=="TOKEN_REFRESHED")return;
 setTimeout(()=>loadUser(session),0)})} // setTimeout: Supabase advises not to query inside this callback
 window.addEventListener("focus",()=>{if(S.user&&!S.recovery)loadData();checkUpdate()});
+// Android app only: finish Google sign-in when Chrome hands back to the app, and make the phone's Back button move through screens.
+if(NATIVE&&plug("App")){const App=plug("App");
+App.addListener("appUrlOpen",async({url})=>{if(!url||!url.startsWith(APP_CB))return;try{plug("Browser")&&plug("Browser").close()}catch(e){}
+const q=new URLSearchParams((url.split("#")[1]||"")+"&"+((url.split("?")[1]||"").split("#")[0]));
+try{if(q.get("error_description"))return toast(q.get("error_description").replace(/\+/g," "),false);
+if(q.get("code"))need2(await sb.auth.exchangeCodeForSession(q.get("code")));
+else if(q.get("access_token"))need2(await sb.auth.setSession({access_token:q.get("access_token"),refresh_token:q.get("refresh_token")}))}
+catch(e){toast(authMsg(e),false)}});
+App.addListener("backButton",()=>{const home=S.user&&S.user.role=="owner"?"ohome":"home";
+if(!S.user||S.recovery){if(S.mode!="signin"){S.mode="signin";S.info="";render()}else App.exitApp();return}
+if(S.view=="rdet"){if(history.state&&history.state.rd)history.back();else closeReq();return}
+if(S.view=="order"){S.view="shop";render();return}if(S.view=="pedit"){S.view="prod";render();return}
+if(S.view!=home){S.view=home;render();window.scrollTo(0,0);return}App.exitApp()});
+App.addListener("resume",()=>{if(S.user&&!S.recovery)loadData();checkUpdate()})}
+function need2(r){if(r&&r.error)throw r.error;return r}
 // Auto-update. GitHub Pages sends Last-Modified with every page, and the browser keeps it as document.lastModified,
 // even for a saved (cached) copy. If the live site is newer than the page running now, reload to get the new version.
 // If the user is part-way through typing something, ask with a bar instead of reloading over their work.
