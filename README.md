@@ -42,6 +42,7 @@ Website (and, later, an Android app) for Aayush Computers, a computer sales and 
 - **Forgot password** sends a reset link to email accounts and a code to mobile numbers.
 
 ### Customers
+- **Home:** a greeting with the customer's name, product search, and quick links: My requests, Book a repair, Shop and Notifications. A "Track your request" card shows their latest request that is still in progress. Below that come the shop categories and a "Need assistance?" box with Call and Enquiry buttons.
 - **Shop:** browse by category, search, and see product photos and prices.
 - **Requests:** place an order, book a repair, or send an enquiry. The Requests tab lists every request as a card with its current status, date and a progress bar.
 - **Tracking:** tapping a request opens its details page, with a step-by-step tracker like a shopping app's:

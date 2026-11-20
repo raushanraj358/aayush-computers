@@ -33,6 +33,7 @@ Guidance for Claude Code when working in this repository. See `README.md` for wh
 - **Views:**
   - Customer, via `customer()`: home, shop, reqs, newreq, order, notes, profile, rdet.
   - Owner, via `owner()`: ohome (the default after login), orq (Requests), prod, pedit, notes, profile, rdet. `ONAV` is the owner's bottom menu.
+- **Customer home:** `home()` shows `greet()` with the first name, then `custQuick()`. That draws the quick links (the `.qa` grid, shared with the owner home) and a "Track your request" card for their latest unfinished request.
 - **Owner home:** `ownerHome()` is the dashboard.
   - Tiles use `data-a="ogo"`, which sets `S.of` and opens orq.
   - "Needs your attention" shows `OF.new` requests through `reqCard`.
